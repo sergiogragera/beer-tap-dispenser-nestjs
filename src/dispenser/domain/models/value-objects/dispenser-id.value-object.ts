@@ -1,7 +1,7 @@
 import { v4, validate } from 'uuid';
 
 export class DispenserId {
-  private constructor(private readonly id: string) {}
+  private constructor(private readonly _value: string) {}
 
   static create(): DispenserId {
     return new DispenserId(v4());
@@ -15,6 +15,6 @@ export class DispenserId {
   }
 
   get value(): string {
-    return this.id;
+    return this._value;
   }
 }

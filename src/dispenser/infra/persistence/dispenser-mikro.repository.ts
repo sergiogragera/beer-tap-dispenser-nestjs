@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Dispenser } from 'src/dispenser/domain/models/dispenser';
-import { DispenserRepository } from 'src/dispenser/domain/persistence/dispenser.repository';
+import { Dispenser } from '../../domain/models/dispenser';
+import { DispenserRepository } from '../../domain/persistence/dispenser.repository';
 import { DispenserMikroEntity } from './dispenser-mikro.entity';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { DispenserId } from 'src/dispenser/domain/models/value-objects/dispenser-id.value-object';
+import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 
 @Injectable()
 export class DispenserMikroRepository implements DispenserRepository {
