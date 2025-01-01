@@ -14,13 +14,20 @@ describe('DispenserStatus', () => {
     const openedStatus = DispenserStatus.create(now);
     expect(openedStatus.openedAt).toEqual(now.toLocaleString());
     expect(openedStatus.closedAt).toBeUndefined();
+    expect(openedStatus.isOpened()).toBeTruthy();
   });
 
   it('create valid closed', () => {
     const now = new Date();
-    const aMillisecondAgo = new Date(now.getTime() - 1);
-    const openedStatus = DispenserStatus.create(aMillisecondAgo, now);
-    expect(openedStatus.openedAt).toEqual(aMillisecondAgo.toLocaleString());
-    expect(openedStatus.closedAt).toEqual(now.toLocaleString());
+    const tenSecondsAgo = new Date(now.getTime() - 10000);
+    const closedStatus = DispenserStatus.create(tenSecondsAgo, now);
+    expect(closedStatus.openedAt).toEqual(tenSecondsAgo.toLocaleString());
+    expect(closedStatus.closedAt).toEqual(now.toLocaleString());
+    expect(closedStatus.isOpened()).toBeFalsy();
+    expect(closedStatus.getSecondsOpened()).toEqual(10);
+
+    const aMinuteAgo = new Date(now.getTime() - 60000);
+    expect(closedStatus.isOpenedAfter(aMinuteAgo)).toBeTruthy();
+    expect(closedStatus.isClosedAfter(aMinuteAgo)).toBeTruthy();
   });
 });
