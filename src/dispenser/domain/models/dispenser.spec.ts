@@ -28,15 +28,51 @@ describe('Dispenser', () => {
     expect(dispenser.toPrimitives()).toEqual(dispenserPrimitives);
   });
 
-  it('create valid opened', () => {
+  it('create valid dispenser', () => {
     const dispenser = Dispenser.create(
       DispenserFlowVolume.fromString('0.0001'),
     );
     expect(dispenser.toPrimitives()).toEqual({
       id: expect.any(String),
       flowVolume: '0.0001',
-      openedAt: expect.any(String),
+      openedAt: undefined,
       closedAt: undefined,
+    });
+  });
+
+  it('open dispenser', () => {
+    const now = new Date();
+
+    const dispenser = Dispenser.create(
+      DispenserFlowVolume.fromString('0.0001'),
+    );
+
+    dispenser.open(now);
+
+    expect(dispenser.toPrimitives()).toEqual({
+      id: expect.any(String),
+      flowVolume: '0.0001',
+      openedAt: now.toLocaleString(),
+      closedAt: undefined,
+    });
+  });
+
+  it('close dispenser', () => {
+    const now = new Date();
+    const aMinuteAgo = new Date(now.getTime() - 60000);
+
+    const dispenser = Dispenser.create(
+      DispenserFlowVolume.fromString('0.0001'),
+    );
+
+    dispenser.open(aMinuteAgo);
+    dispenser.close(now);
+
+    expect(dispenser.toPrimitives()).toEqual({
+      id: expect.any(String),
+      flowVolume: '0.0001',
+      openedAt: aMinuteAgo.toLocaleString(),
+      closedAt: now.toLocaleString(),
     });
   });
 });

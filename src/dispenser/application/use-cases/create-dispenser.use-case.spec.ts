@@ -15,7 +15,7 @@ describe('CreateDispenserUseCase', () => {
     useCase = new CreateDispenserUseCase(repository);
   });
 
-  it('should return an opened dispenser', async () => {
+  it('should return a valid dispenser', async () => {
     const flowVolume = DispenserFlowVolume.fromString('0.0001');
     const dispenser = Dispenser.create(flowVolume);
 

@@ -27,4 +27,20 @@ export class DispenserMikroRepository implements DispenserRepository {
 
     return Dispenser.fromPrimitives(savedDispenser);
   }
+
+  async update(dispenser: Dispenser): Promise<Dispenser> {
+    const dispenserMikro: DispenserMikroEntity = dispenser.toPrimitives();
+    let updateDispenser = this.entityManager.getReference(
+      DispenserMikroEntity,
+      dispenserMikro.id,
+    );
+
+    updateDispenser = this.entityManager.assign(
+      updateDispenser,
+      dispenserMikro,
+    );
+    this.entityManager.persistAndFlush(updateDispenser);
+
+    return Dispenser.fromPrimitives(updateDispenser);
+  }
 }

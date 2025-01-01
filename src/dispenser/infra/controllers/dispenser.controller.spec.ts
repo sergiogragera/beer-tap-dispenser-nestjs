@@ -17,6 +17,8 @@ describe('DispenserController', () => {
     controller = new DispenserController(
       findDispenserUseCase,
       createDispenserUseCase,
+      null,
+      null,
     );
   });
 

@@ -2,11 +2,14 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import { DispenserStatus } from './value-objects/dispenser-status.value-object';
 import { DispenserId } from './value-objects/dispenser-id.value-object';
 import { DispenserFlowVolume } from './value-objects/dispenser-flow-volume.value-object';
+import { DispenserAlreadyOpenedException } from '../exceptions/dispenser-already-opened.exception';
+import { DispenserClosedAfterOpenException } from '../exceptions/dispenser-closed-after-open.exception';
+import { DispenserOpenedAfterCloseException } from '../exceptions/dispenser-opened-after-close.exception';
 
 export interface DispenserPrimitives {
   id: string;
   flowVolume: string;
-  openedAt: string;
+  openedAt?: string;
   closedAt?: string;
 }
 
@@ -14,16 +17,40 @@ export class Dispenser extends AggregateRoot {
   constructor(
     readonly id: DispenserId,
     readonly flowVolume: DispenserFlowVolume,
-    readonly status: DispenserStatus,
+    private _status: DispenserStatus,
   ) {
     super();
   }
 
+  get status(): DispenserStatus {
+    return this._status;
+  }
+
   static create(flowVolume: DispenserFlowVolume) {
     const id = DispenserId.create();
-    const openStatus = DispenserStatus.create(new Date());
+    const openStatus = DispenserStatus.create();
 
     return new Dispenser(id, flowVolume, openStatus);
+  }
+
+  open(openDate = new Date()) {
+    if (this.status.isOpened()) {
+      throw new DispenserAlreadyOpenedException(this.id);
+    } else if (this.status.isClosedAfter(openDate)) {
+      throw new DispenserClosedAfterOpenException(this.id);
+    }
+    this._status = DispenserStatus.create(openDate);
+    // registerEvent(new DispenserOpenedEvent(this));
+  }
+
+  close(closeDate = new Date()) {
+    if (!this.status.isOpened()) {
+      throw new DispenserAlreadyOpenedException(this.id);
+    } else if (this.status.isOpenedAfter(closeDate)) {
+      throw new DispenserOpenedAfterCloseException(this.id);
+    }
+    this._status = DispenserStatus.create(this.status.openedAtDate, closeDate);
+    // registerEvent(new DispenserClosedEvent(this));
   }
 
   toPrimitives(): DispenserPrimitives {

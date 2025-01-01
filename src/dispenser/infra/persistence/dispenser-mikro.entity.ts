@@ -14,8 +14,8 @@ export class DispenserMikroEntity {
   @Property({ type: DecimalType, precision: 32, columnType: 'decimal' })
   flowVolume: string;
 
-  @Property({ type: DateTimeType })
-  openedAt: string;
+  @Property({ type: DateTimeType, nullable: true })
+  openedAt?: string;
 
   @Property({ type: DateTimeType, nullable: true })
   closedAt?: string;
