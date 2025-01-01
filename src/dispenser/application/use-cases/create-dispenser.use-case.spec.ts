@@ -16,22 +16,17 @@ describe('CreateDispenserUseCase', () => {
   });
 
   it('should return an opened dispenser', async () => {
-    const dispenser = Dispenser.fromPrimitives({
-      id: '317ba3b4-a7b0-478b-83f6-9b99daa762b8',
-      flowVolume: '0.0001',
-      openedAt: '1/1/2025, 10:59:35 AM',
-    });
+    const flowVolume = DispenserFlowVolume.fromString('0.0001');
+    const dispenser = Dispenser.create(flowVolume);
 
     jest.spyOn(repository, 'save').mockResolvedValue(dispenser);
 
-    const response = await useCase.execute({
-      flow_volume: '0.0001',
-    });
+    const response = await useCase.execute(flowVolume);
 
     expect(repository.save).toHaveBeenCalledWith(
       expect.objectContaining({
         id: expect.any(DispenserId),
-        flowVolume: DispenserFlowVolume.fromString('0.0001'),
+        flowVolume,
         status: expect.any(DispenserStatus),
       }),
     );

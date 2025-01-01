@@ -11,6 +11,7 @@ import { CreateDispenserUseCase } from '../../application/use-cases/create-dispe
 import { DispenserPrimitives } from '../../domain/models/dispenser';
 import { FindDispenserUseCase } from '../../application/use-cases/find-dispenser.use-case';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
+import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser-flow-volume.value-object';
 
 @Controller('dispenser')
 export class DispenserController {
@@ -30,6 +31,9 @@ export class DispenserController {
   async create(
     @Body() createDispenserDto: CreateDispenserDto,
   ): Promise<DispenserPrimitives> {
-    return this.createDispenserUseCase.execute(createDispenserDto);
+    const flowVolume = DispenserFlowVolume.fromString(
+      createDispenserDto.flow_volume,
+    );
+    return this.createDispenserUseCase.execute(flowVolume);
   }
 }
