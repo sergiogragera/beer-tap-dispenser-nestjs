@@ -12,9 +12,9 @@ export interface DispenserPrimitives {
 
 export class Dispenser extends AggregateRoot {
   constructor(
-    private id: DispenserId,
-    private flowVolume: DispenserFlowVolume,
-    private status: DispenserStatus,
+    readonly id: DispenserId,
+    readonly flowVolume: DispenserFlowVolume,
+    readonly status: DispenserStatus,
   ) {
     super();
   }
