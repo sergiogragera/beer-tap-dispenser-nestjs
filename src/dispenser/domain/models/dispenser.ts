@@ -4,7 +4,7 @@ import { DispenserId } from './value-objects/dispenser-id.value-object';
 import { DispenserFlowVolume } from './value-objects/dispenser-flow-volume.value-object';
 import { DispenserAlreadyOpenedException } from '../exceptions/dispenser-already-opened.exception';
 import { DispenserClosedAfterOpenException } from '../exceptions/dispenser-closed-after-open.exception';
-import { DispenserOpenedAfterCloseException } from '../exceptions/dispenser-opened-after-close.exception';
+import { DispenserAlreadyClosedException } from '../exceptions/dispenser-already-closed.exception';
 import { DispenserNotOpenedException } from '../exceptions/dispenser-not-opened.exception';
 
 export interface DispenserPrimitives {
@@ -48,7 +48,7 @@ export class Dispenser extends AggregateRoot {
     if (!this.status.isOpened()) {
       throw new DispenserNotOpenedException(this.id);
     } else if (this.status.isOpenedAfter(closeDate)) {
-      throw new DispenserOpenedAfterCloseException(this.id);
+      throw new DispenserAlreadyClosedException(this.id);
     }
     this._status = DispenserStatus.create(this.status.openedAtDate, closeDate);
     // registerEvent(new DispenserClosedEvent(this));

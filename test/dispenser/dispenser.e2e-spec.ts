@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { DispenserModule } from '../../src/dispenser/dispenser.module';
-import { CreateDispenserDto } from '../../src/dispenser/domain/dto/create-dispenser.dto';
+import { CreateDispenserDto } from '../../src/dispenser/infra/controllers/dto/create-dispenser.dto';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Dispenser } from '../../src/dispenser/domain/models/dispenser';
 import { DispenserFlowVolume } from '../../src/dispenser/domain/models/value-objects/dispenser-flow-volume.value-object';

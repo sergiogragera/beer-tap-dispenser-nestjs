@@ -1,12 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsEnum } from 'class-validator';
+import { DispenserStatus } from '../../../domain/enums/dispenser-status.enum';
 
-export enum DispenserStatus {
-  OPEN = 'open',
-  CLOSE = 'close',
-}
-
-export class UpdateDispenserDto {
+export class UpdateStatusDispenserDto {
   @ApiProperty({
     description: 'Status of the flow dispenser',
     enum: DispenserStatus,

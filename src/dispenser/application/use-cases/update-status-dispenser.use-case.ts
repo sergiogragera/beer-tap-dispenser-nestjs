@@ -3,9 +3,10 @@ import { DispenserRepository } from '../../domain/persistence/dispenser.reposito
 import { DispenserPrimitives } from '../../domain/models/dispenser';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
+import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';
 
 @Injectable()
-export class CloseDispenserUseCase {
+export class UpdateStatusDispenserUseCase {
   constructor(
     @Inject('DispenserRepository')
     private readonly dispenserRepository: DispenserRepository,
@@ -13,6 +14,7 @@ export class CloseDispenserUseCase {
 
   async execute(
     id: DispenserId,
+    status: DispenserStatus,
     updatedAt?: Date,
   ): Promise<DispenserPrimitives> {
     const dispenser = await this.dispenserRepository.findById(id);
@@ -21,7 +23,11 @@ export class CloseDispenserUseCase {
       throw new DispenserNotFoundException(id);
     }
 
-    dispenser.close(updatedAt);
+    if (status === DispenserStatus.OPEN) {
+      dispenser.open(updatedAt);
+    } else {
+      dispenser.close(updatedAt);
+    }
     const updatedDispenser = await this.dispenserRepository.update(dispenser);
 
     return updatedDispenser.toPrimitives();

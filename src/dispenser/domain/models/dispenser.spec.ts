@@ -1,7 +1,7 @@
 import { DispenserAlreadyOpenedException } from '../exceptions/dispenser-already-opened.exception';
 import { DispenserClosedAfterOpenException } from '../exceptions/dispenser-closed-after-open.exception';
 import { DispenserNotOpenedException } from '../exceptions/dispenser-not-opened.exception';
-import { DispenserOpenedAfterCloseException } from '../exceptions/dispenser-opened-after-close.exception';
+import { DispenserAlreadyClosedException } from '../exceptions/dispenser-already-closed.exception';
 import { Dispenser, DispenserPrimitives } from './dispenser';
 import { DispenserFlowVolume } from './value-objects/dispenser-flow-volume.value-object';
 
@@ -97,7 +97,7 @@ describe('Dispenser', () => {
     expect(() => dispenser.close()).toThrow(DispenserNotOpenedException);
   });
 
-  it('throw error when close before open date', () => {
+  it('throw error when close already closed dispenser', () => {
     const now = new Date();
     const aMinuteAgo = new Date(now.getTime() - 60000);
 
@@ -108,7 +108,7 @@ describe('Dispenser', () => {
     dispenser.open(now);
 
     expect(() => dispenser.close(aMinuteAgo)).toThrow(
-      DispenserOpenedAfterCloseException,
+      DispenserAlreadyClosedException,
     );
   });
 
