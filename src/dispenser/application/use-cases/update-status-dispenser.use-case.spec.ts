@@ -10,11 +10,10 @@ import { mock } from 'jest-mock-extended';
 
 describe('UpdateStatusDispenserUseCase', () => {
   let useCase: UpdateStatusDispenserUseCase;
-  let repository: DispenserRepository;
+  const repository = mock<DispenserRepository>();
   const eventPublisher = mock<EventPublisher>();
 
   beforeEach(() => {
-    repository = new DispenserMikroRepository(null);
     useCase = new UpdateStatusDispenserUseCase(repository, eventPublisher);
   });
 

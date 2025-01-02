@@ -1,16 +1,15 @@
 import { DispenserRepository } from '../../domain/persistence/dispenser.repository';
 import { Dispenser } from '../../domain/models/dispenser';
-import { DispenserMikroRepository } from '../../infra/persistence/dispenser-mikro.repository';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { FindDispenserUseCase } from './find-dispenser.use-case';
 import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
+import mock from 'jest-mock-extended/lib/Mock';
 
 describe('FindDispenserUseCase', () => {
   let useCase: FindDispenserUseCase;
-  let repository: DispenserRepository;
+  const repository = mock<DispenserRepository>();
 
   beforeEach(() => {
-    repository = new DispenserMikroRepository(null);
     useCase = new FindDispenserUseCase(repository);
   });
 

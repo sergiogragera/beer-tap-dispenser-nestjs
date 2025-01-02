@@ -1,17 +1,16 @@
 import { DispenserRepository } from '../../domain/persistence/dispenser.repository';
 import { CreateDispenserUseCase } from './create-dispenser.use-case';
 import { Dispenser } from '../../domain/models/dispenser';
-import { DispenserMikroRepository } from '../../infra/persistence/dispenser-mikro.repository';
 import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser-flow-volume.value-object';
 import { DispenserStatus } from '../../domain/models/value-objects/dispenser-status.value-object';
 import { Uuid } from '../../../shared/value-objects/uuid.value-object';
+import mock from 'jest-mock-extended/lib/Mock';
 
 describe('CreateDispenserUseCase', () => {
   let useCase: CreateDispenserUseCase;
-  let repository: DispenserRepository;
+  const repository = mock<DispenserRepository>();
 
   beforeEach(() => {
-    repository = new DispenserMikroRepository(null);
     useCase = new CreateDispenserUseCase(repository);
   });
 

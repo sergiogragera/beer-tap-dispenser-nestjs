@@ -5,15 +5,14 @@ import { CreateDispenserDto } from './dto/create-dispenser.dto';
 import { FindDispenserUseCase } from '../../application/use-cases/find-dispenser.use-case';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser-flow-volume.value-object';
+import mock from 'jest-mock-extended/lib/Mock';
 
 describe('DispenserController', () => {
-  let findDispenserUseCase: FindDispenserUseCase;
-  let createDispenserUseCase: CreateDispenserUseCase;
+  const findDispenserUseCase = mock<FindDispenserUseCase>();
+  const createDispenserUseCase = mock<CreateDispenserUseCase>();
   let controller: DispenserController;
 
   beforeEach(() => {
-    findDispenserUseCase = new FindDispenserUseCase(null);
-    createDispenserUseCase = new CreateDispenserUseCase(null);
     controller = new DispenserController(
       findDispenserUseCase,
       createDispenserUseCase,

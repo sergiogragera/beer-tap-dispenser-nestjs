@@ -4,13 +4,13 @@ import { DispenserStatusController } from './dispenser-status.controller';
 import { UpdateStatusDispenserUseCase } from '../../application/use-cases/update-status-dispenser.use-case';
 import { UpdateStatusDispenserDto } from './dto/update-status-dispenser.dto';
 import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';
+import mock from 'jest-mock-extended/lib/Mock';
 
 describe('DispenserStatusController', () => {
-  let useCase: UpdateStatusDispenserUseCase;
+  const useCase = mock<UpdateStatusDispenserUseCase>();
   let controller: DispenserStatusController;
 
   beforeEach(() => {
-    useCase = new UpdateStatusDispenserUseCase(null, null);
     controller = new DispenserStatusController(useCase);
   });
 
