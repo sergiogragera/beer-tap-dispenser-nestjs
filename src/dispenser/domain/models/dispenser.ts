@@ -69,7 +69,7 @@ export class Dispenser extends AggregateRoot {
       DispenserId.fromString(primitives.id),
       DispenserFlowVolume.fromString(primitives.flowVolume),
       DispenserStatus.create(
-        new Date(primitives.openedAt),
+        primitives.openedAt ? new Date(primitives.openedAt) : undefined,
         primitives.closedAt ? new Date(primitives.closedAt) : undefined,
       ),
     );

@@ -29,7 +29,7 @@ export class DispenserStatus {
   }
 
   isOpened(): boolean {
-    return this.openedAt && !this.closedAt;
+    return this.openedAtDate && !this.closedAtDate;
   }
 
   isClosedAfter(date: Date): boolean {

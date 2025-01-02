@@ -10,7 +10,7 @@ export class DispenserStatusController {
     private readonly updateStatusDispenserUseCase: UpdateStatusDispenserUseCase,
   ) {}
 
-  @Put(':id')
+  @Put()
   async updateStatus(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateDispenserDto: UpdateStatusDispenserDto,
