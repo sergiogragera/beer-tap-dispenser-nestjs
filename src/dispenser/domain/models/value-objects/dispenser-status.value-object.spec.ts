@@ -9,6 +9,13 @@ describe('DispenserStatus', () => {
     );
   });
 
+  it('retrieve seconds zero seconds opened when not opened', () => {
+    const openedStatus = DispenserStatus.create();
+    expect(openedStatus.openedAt).toBeUndefined();
+    expect(openedStatus.closedAt).toBeUndefined();
+    expect(openedStatus.secondsOpened).toEqual(0);
+  });
+
   it('create valid opened', () => {
     const now = new Date();
     const openedStatus = DispenserStatus.create(now);
