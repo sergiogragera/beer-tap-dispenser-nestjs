@@ -6,6 +6,7 @@ import { DispenserAlreadyOpenedException } from '../exceptions/dispenser-already
 import { DispenserClosedAfterOpenException } from '../exceptions/dispenser-closed-after-open.exception';
 import { DispenserAlreadyClosedException } from '../exceptions/dispenser-already-closed.exception';
 import { DispenserNotOpenedException } from '../exceptions/dispenser-not-opened.exception';
+import { DispenserClosedEvent } from '../events/dispenser-closed.event';
 
 export interface DispenserPrimitives {
   id: string;
@@ -41,7 +42,7 @@ export class Dispenser extends AggregateRoot {
       throw new DispenserClosedAfterOpenException(this.id);
     }
     this._status = DispenserStatus.create(openDate);
-    // registerEvent(new DispenserOpenedEvent(this));
+    // this.apply(new DispenserOpenedEvent(this.id));
   }
 
   close(closeDate = new Date()) {
@@ -51,7 +52,7 @@ export class Dispenser extends AggregateRoot {
       throw new DispenserAlreadyClosedException(this.id);
     }
     this._status = DispenserStatus.create(this.status.openedAtDate, closeDate);
-    // registerEvent(new DispenserClosedEvent(this));
+    this.apply(new DispenserClosedEvent(this.id));
   }
 
   toPrimitives(): DispenserPrimitives {

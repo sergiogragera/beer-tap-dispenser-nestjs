@@ -5,9 +5,10 @@ import {
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
+import { DispenserPrimitives } from 'src/dispenser/domain/models/dispenser';
 
 @Entity({ tableName: 'dispenser' })
-export class DispenserMikroEntity {
+export class DispenserMikroEntity implements DispenserPrimitives {
   @PrimaryKey({ type: 'uuid' })
   id: string;
 

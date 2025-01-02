@@ -13,7 +13,7 @@ describe('DispenserFlowVolume', () => {
     );
   });
 
-  it('create valid dispenser flow volume', () => {
+  it('create valid dispenser from primitive', () => {
     const flowVolume = DispenserFlowVolume.fromString('0.0001');
     expect(flowVolume.value).toEqual('0.0001');
   });

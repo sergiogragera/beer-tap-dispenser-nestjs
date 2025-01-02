@@ -3,8 +3,8 @@ import { CreateDispenserUseCase } from './create-dispenser.use-case';
 import { Dispenser } from '../../domain/models/dispenser';
 import { DispenserMikroRepository } from '../../infra/persistence/dispenser-mikro.repository';
 import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser-flow-volume.value-object';
-import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { DispenserStatus } from '../../domain/models/value-objects/dispenser-status.value-object';
+import { Uuid } from '../../../shared/value-objects/uuid.value-object';
 
 describe('CreateDispenserUseCase', () => {
   let useCase: CreateDispenserUseCase;
@@ -25,7 +25,7 @@ describe('CreateDispenserUseCase', () => {
 
     expect(repository.save).toHaveBeenCalledWith(
       expect.objectContaining({
-        id: expect.any(DispenserId),
+        id: expect.any(Uuid),
         flowVolume,
         status: expect.any(DispenserStatus),
       }),

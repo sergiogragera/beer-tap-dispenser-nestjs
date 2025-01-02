@@ -23,8 +23,8 @@ describe('DispenserStatus', () => {
     const closedStatus = DispenserStatus.create(tenSecondsAgo, now);
     expect(closedStatus.openedAt).toEqual(tenSecondsAgo.toLocaleString());
     expect(closedStatus.closedAt).toEqual(now.toLocaleString());
+    expect(closedStatus.secondsOpened).toEqual(10);
     expect(closedStatus.isOpened()).toBeFalsy();
-    expect(closedStatus.getSecondsOpened()).toEqual(10);
 
     const aMinuteAgo = new Date(now.getTime() - 60000);
     expect(closedStatus.isOpenedAfter(aMinuteAgo)).toBeTruthy();

@@ -18,6 +18,12 @@ export class DispenserStatus {
     return this.closedAtDate?.toLocaleString();
   }
 
+  get secondsOpened(): number {
+    return this.openedAtDate && this.closedAtDate
+      ? (this.closedAtDate.getTime() - this.openedAtDate.getTime()) / 1000
+      : 0;
+  }
+
   static create(openedAt?: Date, closedAt?: Date): DispenserStatus {
     return new DispenserStatus(openedAt, closedAt);
   }
@@ -32,11 +38,5 @@ export class DispenserStatus {
 
   isOpenedAfter(date: Date): boolean {
     return this.openedAtDate?.getTime() > date.getTime();
-  }
-
-  getSecondsOpened(): number {
-    return this.openedAtDate && this.closedAtDate
-      ? (this.closedAtDate.getTime() - this.openedAtDate.getTime()) / 1000
-      : 0;
   }
 }
