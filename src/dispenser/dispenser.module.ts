@@ -6,11 +6,20 @@ import { FindDispenserUseCase } from './application/use-cases/find-dispenser.use
 import { UpdateStatusDispenserUseCase } from './application/use-cases/update-status-dispenser.use-case';
 import { DispenserStatusController } from './infra/controllers/dispenser-status.controller';
 import { DispenserUsageMikroRepository } from './infra/persistence/dispenser-usage-mikro.repository';
+import { DispenserClosedHandler } from './application/events/dispenser-closed-event.handler';
+import { FindDispenserSpendingsUseCase } from './application/use-cases/find-dispenser-spendings.use-case';
+import { DispenserSpendingController } from './infra/controllers/dispenser-spending.controller';
 
 @Module({
-  controllers: [DispenserController, DispenserStatusController],
+  controllers: [
+    DispenserController,
+    DispenserStatusController,
+    DispenserSpendingController,
+  ],
   providers: [
+    DispenserClosedHandler,
     FindDispenserUseCase,
+    FindDispenserSpendingsUseCase,
     CreateDispenserUseCase,
     UpdateStatusDispenserUseCase,
     {
@@ -22,5 +31,6 @@ import { DispenserUsageMikroRepository } from './infra/persistence/dispenser-usa
       useClass: DispenserUsageMikroRepository,
     },
   ],
+  exports: [DispenserClosedHandler],
 })
 export class DispenserModule {}

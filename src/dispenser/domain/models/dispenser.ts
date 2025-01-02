@@ -22,6 +22,7 @@ export class Dispenser extends AggregateRoot {
     private _status: DispenserStatus,
   ) {
     super();
+    this.autoCommit = true;
   }
 
   get status(): DispenserStatus {

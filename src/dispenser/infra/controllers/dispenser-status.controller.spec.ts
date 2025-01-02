@@ -10,7 +10,7 @@ describe('DispenserStatusController', () => {
   let controller: DispenserStatusController;
 
   beforeEach(() => {
-    useCase = new UpdateStatusDispenserUseCase(null);
+    useCase = new UpdateStatusDispenserUseCase(null, null);
     controller = new DispenserStatusController(useCase);
   });
 

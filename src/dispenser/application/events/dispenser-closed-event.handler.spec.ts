@@ -31,7 +31,7 @@ describe('DispenserClosedHandler', () => {
     jest.spyOn(dispenserRepository, 'findById').mockResolvedValue(dispenser);
     jest.spyOn(dispenserUsageRepository, 'save').mockResolvedValue(null);
 
-    await handler.execute(new DispenserClosedEvent(dispenser.id));
+    await handler.handle(new DispenserClosedEvent(dispenser.id));
 
     expect(dispenserRepository.findById).toHaveBeenCalledWith(dispenser.id);
     expect(dispenserUsageRepository.save).toHaveBeenCalledWith(

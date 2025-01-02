@@ -5,14 +5,17 @@ import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser
 import { UpdateStatusDispenserUseCase } from './update-status-dispenser.use-case';
 import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';
 import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
+import { EventPublisher } from '@nestjs/cqrs';
+import { mock } from 'jest-mock-extended';
 
 describe('UpdateStatusDispenserUseCase', () => {
   let useCase: UpdateStatusDispenserUseCase;
   let repository: DispenserRepository;
+  const eventPublisher = mock<EventPublisher>();
 
   beforeEach(() => {
     repository = new DispenserMikroRepository(null);
-    useCase = new UpdateStatusDispenserUseCase(repository);
+    useCase = new UpdateStatusDispenserUseCase(repository, eventPublisher);
   });
 
   it('should throw DispenserNotFoundException when dispenser not found', async () => {
@@ -33,6 +36,9 @@ describe('UpdateStatusDispenserUseCase', () => {
     const flowVolume = DispenserFlowVolume.fromString('0.0001');
     const dispenser = Dispenser.create(flowVolume);
 
+    jest
+      .spyOn(eventPublisher, 'mergeObjectContext')
+      .mockImplementation(() => dispenser);
     jest.spyOn(repository, 'findById').mockResolvedValue(dispenser);
     jest.spyOn(repository, 'update').mockResolvedValue(dispenser);
 
@@ -57,6 +63,9 @@ describe('UpdateStatusDispenserUseCase', () => {
     const dispenser = Dispenser.create(flowVolume);
     dispenser.open();
 
+    jest
+      .spyOn(eventPublisher, 'mergeObjectContext')
+      .mockImplementation(() => dispenser);
     jest.spyOn(repository, 'findById').mockResolvedValue(dispenser);
     jest.spyOn(repository, 'update').mockResolvedValue(dispenser);
 

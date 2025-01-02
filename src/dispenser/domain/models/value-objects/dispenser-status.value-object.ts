@@ -19,9 +19,12 @@ export class DispenserStatus {
   }
 
   get secondsOpened(): number {
-    return this.openedAtDate && this.closedAtDate
-      ? (this.closedAtDate.getTime() - this.openedAtDate.getTime()) / 1000
-      : 0;
+    if (!this.openedAtDate) {
+      return 0;
+    }
+
+    const closeDate = this.closedAtDate ?? new Date();
+    return (closeDate.getTime() - this.openedAtDate.getTime()) / 1000;
   }
 
   static create(openedAt?: Date, closedAt?: Date): DispenserStatus {

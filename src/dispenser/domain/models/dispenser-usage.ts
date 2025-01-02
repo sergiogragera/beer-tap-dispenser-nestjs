@@ -1,4 +1,3 @@
-import { DispenserAlreadyOpenedException } from '../exceptions/dispenser-already-opened.exception';
 import { Dispenser } from './dispenser';
 import { DispenserFlowVolume } from './value-objects/dispenser-flow-volume.value-object';
 import { DispenserId } from './value-objects/dispenser-id.value-object';
