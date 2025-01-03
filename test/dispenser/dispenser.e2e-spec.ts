@@ -1,14 +1,12 @@
-import config from '../../mikro-orm.config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { DispenserModule } from '../../src/dispenser/dispenser.module';
 import { CreateDispenserDto } from '../../src/dispenser/infra/controllers/dto/create-dispenser.dto';
-import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { Dispenser } from '../../src/dispenser/domain/models/dispenser';
 import { DispenserFlowVolume } from '../../src/dispenser/domain/models/value-objects/dispenser-flow-volume.value-object';
 import { DispenserMikroEntity } from '../../src/dispenser/infra/persistence/dispenser-mikro.entity';
 import { EntityManager, MikroORM } from '@mikro-orm/postgresql';
+import { DispenserBuilder } from '../../test/builders/dispenser.builder';
+import { AppModule } from '../../src/app.module';
 
 describe('DispenserController (e2e)', () => {
   let app: INestApplication;
@@ -16,7 +14,7 @@ describe('DispenserController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [MikroOrmModule.forRoot(config), DispenserModule],
+      imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -34,7 +32,7 @@ describe('DispenserController (e2e)', () => {
     await app.close();
   });
 
-  it('/dispenser (POST)', async () => {
+  it('should create dispenser', async () => {
     const createDispenserDto: CreateDispenserDto = {
       flow_volume: '0.00001',
     };
@@ -47,15 +45,16 @@ describe('DispenserController (e2e)', () => {
     expect(response.body).toEqual({
       id: expect.any(String),
       flowVolume: '0.00001',
-      openedAt: expect.any(String),
+      openedAt: undefined,
       closedAt: undefined,
     });
   });
 
-  it('/dispenser/:id (GET)', async () => {
-    const dispenser = Dispenser.create(
+  it('sould find dispenser', async () => {
+    const dispenser = DispenserBuilder.create(
       DispenserFlowVolume.fromString('0.0001'),
-    );
+    ).build();
+
     await entityManager.persistAndFlush([
       entityManager.create(DispenserMikroEntity, dispenser.toPrimitives()),
     ]);

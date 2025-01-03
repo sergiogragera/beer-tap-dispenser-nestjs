@@ -1,9 +1,9 @@
 import {
   Dispenser,
   DispenserPrimitives,
-} from 'src/dispenser/domain/models/dispenser';
-import { DispenserFlowVolume } from 'src/dispenser/domain/models/value-objects/dispenser-flow-volume.value-object';
-import { DispenserId } from 'src/dispenser/domain/models/value-objects/dispenser-id.value-object';
+} from '../../src/dispenser/domain/models/dispenser';
+import { DispenserFlowVolume } from '../../src/dispenser/domain/models/value-objects/dispenser-flow-volume.value-object';
+import { DispenserId } from '../../src/dispenser/domain/models/value-objects/dispenser-id.value-object';
 
 export class DispenserBuilder {
   private constructor(private dispenserPrimitives: DispenserPrimitives) {}
@@ -13,7 +13,7 @@ export class DispenserBuilder {
     id?: DispenserId,
   ): DispenserBuilder {
     return new DispenserBuilder({
-      id: id.value ?? DispenserId.create().value,
+      id: id?.value ?? DispenserId.create().value,
       flowVolume: flowVolume.value,
     });
   }

@@ -22,8 +22,8 @@ export class DispenserSpent {
       throw new Error('spent must be a number');
     }
 
-    if (totalSpent.isLessThanOrEqualTo(0)) {
-      throw new Error('spent must be positive');
+    if (totalSpent.isLessThan(0)) {
+      throw new Error('spent must not be negtive');
     }
 
     return new DispenserSpent(totalSpent);
