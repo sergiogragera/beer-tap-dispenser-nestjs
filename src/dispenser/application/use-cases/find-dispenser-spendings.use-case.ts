@@ -4,8 +4,8 @@ import { DispenserId } from '../../domain/models/value-objects/dispenser-id.valu
 import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
 import { DispenserUsageRepository } from '../../domain/persistence/dispenser-usage.repository';
 import { DispenserUsagePrimitives } from '../../domain/models/dispenser-usage';
-import { DispenserSpent } from 'src/dispenser/domain/models/value-objects/dispenser-spent.value-object';
-import { Dispenser } from 'src/dispenser/domain/models/dispenser';
+import { DispenserSpent } from '../../domain/models/value-objects/dispenser-spent.value-object';
+import { Dispenser } from '../../domain/models/dispenser';
 
 @Injectable()
 export class FindDispenserSpendingsUseCase {
