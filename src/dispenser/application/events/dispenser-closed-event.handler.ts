@@ -1,4 +1,4 @@
-import { Inject, LoggerService } from '@nestjs/common';
+import { Inject, Logger } from '@nestjs/common';
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { DispenserClosedEvent } from '../../../dispenser/domain/events/dispenser-closed.event';
 import { DispenserUsage } from '../../../dispenser/domain/models/dispenser-usage';
@@ -9,12 +9,13 @@ import { DispenserRepository } from '../../../dispenser/domain/persistence/dispe
 export class DispenserClosedHandler
   implements IEventHandler<DispenserClosedEvent>
 {
+  private readonly logger = new Logger(DispenserClosedEvent.name);
+
   constructor(
     @Inject('DispenserRepository')
     private readonly dispenserRepository: DispenserRepository,
     @Inject('DispenserUsageRepository')
     private readonly dispenserUsageRepository: DispenserUsageRepository,
-    private readonly logger: LoggerService,
   ) {}
 
   async handle(dispenserClosedEvent: DispenserClosedEvent) {

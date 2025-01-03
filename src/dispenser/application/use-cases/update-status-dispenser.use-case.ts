@@ -1,4 +1,4 @@
-import { Inject, Injectable, LoggerService } from '@nestjs/common';
+import { Inject, Injectable, Logger, LoggerService } from '@nestjs/common';
 import { DispenserRepository } from '../../domain/persistence/dispenser.repository';
 import { DispenserPrimitives } from '../../domain/models/dispenser';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
@@ -8,11 +8,12 @@ import { EventPublisher } from '@nestjs/cqrs';
 
 @Injectable()
 export class UpdateStatusDispenserUseCase {
+  private readonly logger = new Logger(UpdateStatusDispenserUseCase.name);
+
   constructor(
     @Inject('DispenserRepository')
     private readonly dispenserRepository: DispenserRepository,
     private readonly publisher: EventPublisher,
-    private readonly logger: LoggerService,
   ) {}
 
   async execute(

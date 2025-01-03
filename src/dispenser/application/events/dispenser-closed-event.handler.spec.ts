@@ -6,19 +6,16 @@ import { DispenserClosedHandler } from './dispenser-closed-event.handler';
 import { DispenserClosedEvent } from '../../../dispenser/domain/events/dispenser-closed.event';
 import { DispenserUsage } from '../../../dispenser/domain/models/dispenser-usage';
 import { mock } from 'jest-mock-extended';
-import { LoggerService } from '@nestjs/common';
 
 describe('DispenserClosedHandler', () => {
   let handler: DispenserClosedHandler;
   const dispenserRepository = mock<DispenserRepository>();
   const dispenserUsageRepository = mock<DispenserUsageRepository>();
-  const logger = mock<LoggerService>();
 
   beforeEach(() => {
     handler = new DispenserClosedHandler(
       dispenserRepository,
       dispenserUsageRepository,
-      logger,
     );
   });
 

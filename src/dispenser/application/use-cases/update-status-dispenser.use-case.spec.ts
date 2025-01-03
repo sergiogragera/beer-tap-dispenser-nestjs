@@ -7,20 +7,14 @@ import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';
 import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
 import { EventPublisher } from '@nestjs/cqrs';
 import { mock } from 'jest-mock-extended';
-import { LoggerService } from '@nestjs/common';
 
 describe('UpdateStatusDispenserUseCase', () => {
   let useCase: UpdateStatusDispenserUseCase;
   const repository = mock<DispenserRepository>();
   const eventPublisher = mock<EventPublisher>();
-  const logger = mock<LoggerService>();
 
   beforeEach(() => {
-    useCase = new UpdateStatusDispenserUseCase(
-      repository,
-      eventPublisher,
-      logger,
-    );
+    useCase = new UpdateStatusDispenserUseCase(repository, eventPublisher);
   });
 
   it('should throw DispenserNotFoundException when dispenser not found', async () => {
