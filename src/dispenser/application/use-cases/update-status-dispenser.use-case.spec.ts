@@ -1,6 +1,5 @@
 import { DispenserRepository } from '../../domain/persistence/dispenser.repository';
 import { Dispenser } from '../../domain/models/dispenser';
-import { DispenserMikroRepository } from '../../infra/persistence/dispenser-mikro.repository';
 import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser-flow-volume.value-object';
 import { UpdateStatusDispenserUseCase } from './update-status-dispenser.use-case';
 import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';

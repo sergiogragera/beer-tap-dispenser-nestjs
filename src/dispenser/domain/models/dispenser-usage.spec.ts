@@ -1,7 +1,6 @@
 import { Dispenser } from './dispenser';
 import { DispenserFlowVolume } from './value-objects/dispenser-flow-volume.value-object';
 import { DispenserUsage, DispenserUsagePrimitives } from './dispenser-usage';
-import { DispenserAlreadyOpenedException } from '../exceptions/dispenser-already-opened.exception';
 
 describe('DispenserUsage', () => {
   it('create valid usage from primitives', () => {

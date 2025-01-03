@@ -1,6 +1,5 @@
 import { Dispenser } from '../../domain/models/dispenser';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
-import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';
 import mock from 'jest-mock-extended/lib/Mock';
 import { FindDispenserSpendingsUseCase } from '../../application/use-cases/find-dispenser-spendings.use-case';
 import { DispenserSpendingController } from './dispenser-spending.controller';

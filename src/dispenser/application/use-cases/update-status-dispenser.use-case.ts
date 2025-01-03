@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger, LoggerService } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { DispenserRepository } from '../../domain/persistence/dispenser.repository';
 import { DispenserPrimitives } from '../../domain/models/dispenser';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
