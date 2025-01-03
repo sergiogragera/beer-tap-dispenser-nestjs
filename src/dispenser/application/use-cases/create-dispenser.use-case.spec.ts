@@ -5,13 +5,15 @@ import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser
 import { DispenserStatus } from '../../domain/models/value-objects/dispenser-status.value-object';
 import { Uuid } from '../../../shared/value-objects/uuid.value-object';
 import mock from 'jest-mock-extended/lib/Mock';
+import { LoggerService } from '@nestjs/common';
 
 describe('CreateDispenserUseCase', () => {
   let useCase: CreateDispenserUseCase;
   const repository = mock<DispenserRepository>();
+  const logger = mock<LoggerService>();
 
   beforeEach(() => {
-    useCase = new CreateDispenserUseCase(repository);
+    useCase = new CreateDispenserUseCase(repository, logger);
   });
 
   it('should return a valid dispenser', async () => {

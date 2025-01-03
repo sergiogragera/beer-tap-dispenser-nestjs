@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, LoggerService } from '@nestjs/common';
 import { DispenserRepository } from '../../domain/persistence/dispenser.repository';
 import { DispenserPrimitives } from '../../domain/models/dispenser';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
@@ -11,7 +11,8 @@ export class UpdateStatusDispenserUseCase {
   constructor(
     @Inject('DispenserRepository')
     private readonly dispenserRepository: DispenserRepository,
-    private publisher: EventPublisher,
+    private readonly publisher: EventPublisher,
+    private readonly logger: LoggerService,
   ) {}
 
   async execute(
@@ -19,6 +20,9 @@ export class UpdateStatusDispenserUseCase {
     status: DispenserStatus,
     updatedAt?: Date,
   ): Promise<DispenserPrimitives> {
+    this.logger.log(
+      `update ${status} status request for dispenser with id ${id.value} received`,
+    );
     const dispenser = this.publisher.mergeObjectContext(
       await this.dispenserRepository.findById(id),
     );
@@ -33,7 +37,7 @@ export class UpdateStatusDispenserUseCase {
       dispenser.close(updatedAt);
     }
     const updatedDispenser = await this.dispenserRepository.update(dispenser);
-    dispenser.commit();
+    // dispenser.commit();
 
     return updatedDispenser.toPrimitives();
   }
