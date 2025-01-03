@@ -38,7 +38,6 @@ export class UpdateStatusDispenserUseCase {
       dispenser.close(updatedAt);
     }
     const updatedDispenser = await this.dispenserRepository.update(dispenser);
-    // dispenser.commit();
 
     return updatedDispenser.toPrimitives();
   }
