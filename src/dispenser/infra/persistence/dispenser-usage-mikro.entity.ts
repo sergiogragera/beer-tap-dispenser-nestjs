@@ -1,4 +1,5 @@
 import {
+  assign,
   DateTimeType,
   DecimalType,
   Entity,
@@ -10,20 +11,20 @@ import { DispenserUsagePrimitives } from 'src/dispenser/domain/models/dispenser-
 @Entity({ tableName: 'usage' })
 export class DispenserUsageMikroEntity implements DispenserUsagePrimitives {
   @PrimaryKey({ type: 'uuid' })
-  id: string;
+  id!: string;
 
   @PrimaryKey({ type: 'uuid' })
-  dispenserId: string;
+  dispenserId!: string;
 
   @Property({ type: DecimalType, precision: 32, columnType: 'decimal' })
-  flowVolume: string;
+  flowVolume!: string;
 
   @Property({ type: DecimalType, precision: 32, columnType: 'decimal' })
-  totalSpent: string;
+  totalSpent!: string;
 
   @Property({ type: DateTimeType })
-  openedAt: string;
+  openedAt!: string;
 
   @Property({ type: DateTimeType })
-  closedAt: string;
+  closedAt!: string;
 }

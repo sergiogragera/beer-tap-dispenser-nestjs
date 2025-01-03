@@ -17,15 +17,6 @@ describe('DispenserUsage', () => {
     expect(usage.toPrimitives()).toEqual(usagePrimitives);
   });
 
-  it('throw Error when create usage from null dispenser', () => {
-    const dispenser = Dispenser.create(DispenserFlowVolume.fromString('1'));
-    dispenser.open();
-
-    expect(() => DispenserUsage.create(null)).toThrow(
-      'dispenser must not be null',
-    );
-  });
-
   it('throw Error when create usage from not closed dispenser', () => {
     const dispenser = Dispenser.create(DispenserFlowVolume.fromString('1'));
     dispenser.open();

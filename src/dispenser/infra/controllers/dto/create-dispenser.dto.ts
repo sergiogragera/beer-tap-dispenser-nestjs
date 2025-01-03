@@ -9,5 +9,5 @@ export class CreateDispenserDto {
     example: 0.0653,
   })
   @IsPositive()
-  flow_volume: string;
+  flow_volume!: string;
 }

@@ -10,10 +10,10 @@ import { DispenserPrimitives } from 'src/dispenser/domain/models/dispenser';
 @Entity({ tableName: 'dispenser' })
 export class DispenserMikroEntity implements DispenserPrimitives {
   @PrimaryKey({ type: 'uuid' })
-  id: string;
+  id!: string;
 
   @Property({ type: DecimalType, precision: 32, columnType: 'decimal' })
-  flowVolume: string;
+  flowVolume!: string;
 
   @Property({ type: DateTimeType, nullable: true })
   openedAt?: string;

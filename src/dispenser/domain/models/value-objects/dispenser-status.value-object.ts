@@ -3,7 +3,11 @@ export class DispenserStatus {
     readonly openedAtDate?: Date,
     readonly closedAtDate?: Date,
   ) {
-    if (closedAtDate?.getTime() < openedAtDate?.getTime()) {
+    if (
+      closedAtDate &&
+      openedAtDate &&
+      closedAtDate.getTime() < openedAtDate.getTime()
+    ) {
       throw new Error(
         'closed datetime must be greater or equal than open datetime',
       );
@@ -32,14 +36,18 @@ export class DispenserStatus {
   }
 
   isOpened(): boolean {
-    return this.openedAtDate && !this.closedAtDate;
+    return this.openedAtDate !== undefined && !this.closedAtDate;
   }
 
   isClosedAfter(date: Date): boolean {
-    return this.closedAtDate?.getTime() > date.getTime();
+    return this.closedAtDate
+      ? this.closedAtDate.getTime() > date.getTime()
+      : false;
   }
 
   isOpenedAfter(date: Date): boolean {
-    return this.openedAtDate?.getTime() > date.getTime();
+    return this.openedAtDate
+      ? this.openedAtDate.getTime() > date.getTime()
+      : false;
   }
 }

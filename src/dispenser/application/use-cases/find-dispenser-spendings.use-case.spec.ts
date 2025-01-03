@@ -23,7 +23,7 @@ describe('FindDispenserSpendingsUseCase', () => {
   it('should throw DispenserNotFoundException when not found', async () => {
     const id = DispenserId.create();
 
-    jest.spyOn(dispenserRepository, 'findById').mockResolvedValue(undefined);
+    jest.spyOn(dispenserRepository, 'findById').mockResolvedValue(null);
 
     expect(useCase.execute(id)).rejects.toThrow(DispenserNotFoundException);
   });
@@ -45,12 +45,10 @@ describe('FindDispenserSpendingsUseCase', () => {
     expect(usageRepository.findAll).toHaveBeenCalledWith(id);
     expect(response).toEqual([
       {
-        id: undefined,
         dispenserId: dispenser.id.value,
         flowVolume: '0.0001',
         totalSpent: expect.any(String),
         openedAt: '1/1/2025, 10:59:35 AM',
-        closedAt: null,
       },
     ]);
   });
@@ -89,12 +87,10 @@ describe('FindDispenserSpendingsUseCase', () => {
         closedAt: '2/1/2025, 11:00:35 AM',
       },
       {
-        id: undefined,
         dispenserId: dispenser.id.value,
         flowVolume: '0.0001',
         totalSpent: expect.any(String),
         openedAt: '1/1/2025, 10:59:35 AM',
-        closedAt: null,
       },
     ]);
   });

@@ -3,9 +3,9 @@ import { DispenserRepository } from '../../domain/persistence/dispenser.reposito
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
 import { DispenserUsageRepository } from '../../domain/persistence/dispenser-usage.repository';
-import { DispenserUsagePrimitives } from '../../domain/models/dispenser-usage';
 import { DispenserSpent } from '../../domain/models/value-objects/dispenser-spent.value-object';
 import { Dispenser } from '../../domain/models/dispenser';
+import { HistoricalUsageDto } from 'src/dispenser/domain/dto/historical-usage.dto';
 
 @Injectable()
 export class FindDispenserSpendingsUseCase {
@@ -16,7 +16,7 @@ export class FindDispenserSpendingsUseCase {
     private readonly dispenserUsageRepository: DispenserUsageRepository,
   ) {}
 
-  async execute(id: DispenserId): Promise<DispenserUsagePrimitives[]> {
+  async execute(id: DispenserId): Promise<HistoricalUsageDto[]> {
     const dispenser = await this.dispenserRepository.findById(id);
 
     if (!dispenser) {
@@ -24,7 +24,9 @@ export class FindDispenserSpendingsUseCase {
     }
 
     const usages = await this.dispenserUsageRepository.findAll(dispenser.id);
-    const response = usages.map((usage) => usage.toPrimitives());
+    const response: HistoricalUsageDto[] = usages.map((usage) =>
+      usage.toPrimitives(),
+    );
     if (dispenser.status.isOpened()) {
       response.push(this.getOpenedUsageFromDispenser(dispenser));
     }
@@ -34,18 +36,16 @@ export class FindDispenserSpendingsUseCase {
 
   private getOpenedUsageFromDispenser(
     dispenser: Dispenser,
-  ): DispenserUsagePrimitives {
+  ): HistoricalUsageDto {
     const totalSpent = DispenserSpent.create(
       dispenser.flowVolume,
       dispenser.status.secondsOpened,
     );
 
     return {
-      id: undefined,
       dispenserId: dispenser.id.value,
       flowVolume: dispenser.flowVolume.value,
-      openedAt: dispenser.status.openedAt,
-      closedAt: null,
+      openedAt: dispenser.status.openedAt ?? new Date().toISOString(),
       totalSpent: totalSpent.value,
     };
   }

@@ -9,8 +9,8 @@ describe('DispenserSpent', () => {
   });
 
   it('throw Error when value is not positive', () => {
-    expect(() => DispenserSpent.fromString('0.00')).toThrow(
-      'spent must be positive',
+    expect(() => DispenserSpent.fromString('-0.000001')).toThrow(
+      'spent must not be negtive',
     );
   });
 

@@ -19,19 +19,17 @@ export class UpdateStatusDispenserUseCase {
   async execute(
     id: DispenserId,
     status: DispenserStatus,
-    updatedAt?: Date,
+    updatedAt: Date,
   ): Promise<DispenserPrimitives> {
     this.logger.log(
       `update ${status} status request for dispenser with id ${id.value} received`,
     );
-    const dispenser = this.publisher.mergeObjectContext(
-      await this.dispenserRepository.findById(id),
-    );
-
+    const dispenser = await this.dispenserRepository.findById(id);
     if (!dispenser) {
       throw new DispenserNotFoundException(id);
     }
 
+    this.publisher.mergeObjectContext(dispenser);
     if (status === DispenserStatus.OPEN) {
       dispenser.open(updatedAt);
     } else {

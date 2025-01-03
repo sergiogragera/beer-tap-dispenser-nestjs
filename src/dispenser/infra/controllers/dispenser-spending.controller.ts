@@ -1,7 +1,7 @@
 import { Controller, Param, ParseUUIDPipe, Get } from '@nestjs/common';
 import { FindDispenserSpendingsUseCase } from '../../application/use-cases/find-dispenser-spendings.use-case';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
-import { DispenserUsagePrimitives } from '../../domain/models/dispenser-usage';
+import { HistoricalUsageDto } from '../../domain/dto/historical-usage.dto';
 
 @Controller('dispenser/:id/spending')
 export class DispenserSpendingController {
@@ -12,7 +12,7 @@ export class DispenserSpendingController {
   @Get()
   async findAll(
     @Param('id', new ParseUUIDPipe()) id: string,
-  ): Promise<DispenserUsagePrimitives[]> {
+  ): Promise<HistoricalUsageDto[]> {
     return this.findDispenserSpendingsUseCase.execute(
       DispenserId.fromString(id),
     );

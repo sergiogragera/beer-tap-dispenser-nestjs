@@ -15,10 +15,11 @@ export class DispenserStatusController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateDispenserDto: UpdateStatusDispenserDto,
   ): Promise<DispenserPrimitives> {
+    const updatedAt = new Date(updateDispenserDto.updated_at ?? Date.now());
     return this.updateStatusDispenserUseCase.execute(
       DispenserId.fromString(id),
       updateDispenserDto.status,
-      new Date(updateDispenserDto.updated_at),
+      updatedAt,
     );
   }
 }

@@ -23,9 +23,9 @@ describe('UpdateStatusDispenserUseCase', () => {
     jest.spyOn(repository, 'findById').mockResolvedValue(null);
     jest.spyOn(repository, 'update');
 
-    expect(useCase.execute(dispenser.id, DispenserStatus.OPEN)).rejects.toThrow(
-      DispenserNotFoundException,
-    );
+    expect(
+      useCase.execute(dispenser.id, DispenserStatus.OPEN, new Date()),
+    ).rejects.toThrow(DispenserNotFoundException);
     expect(repository.findById).toHaveBeenCalledWith(dispenser.id);
     expect(repository.update).toHaveBeenCalledTimes(0);
   });
@@ -40,7 +40,11 @@ describe('UpdateStatusDispenserUseCase', () => {
     jest.spyOn(repository, 'findById').mockResolvedValue(dispenser);
     jest.spyOn(repository, 'update').mockResolvedValue(dispenser);
 
-    const response = await useCase.execute(dispenser.id, DispenserStatus.OPEN);
+    const response = await useCase.execute(
+      dispenser.id,
+      DispenserStatus.OPEN,
+      new Date(),
+    );
 
     expect(repository.findById).toHaveBeenCalledWith(dispenser.id);
     expect(repository.update).toHaveBeenCalledWith(
@@ -67,7 +71,11 @@ describe('UpdateStatusDispenserUseCase', () => {
     jest.spyOn(repository, 'findById').mockResolvedValue(dispenser);
     jest.spyOn(repository, 'update').mockResolvedValue(dispenser);
 
-    const response = await useCase.execute(dispenser.id, DispenserStatus.CLOSE);
+    const response = await useCase.execute(
+      dispenser.id,
+      DispenserStatus.CLOSE,
+      new Date(),
+    );
 
     expect(repository.findById).toHaveBeenCalledWith(dispenser.id);
     expect(repository.update).toHaveBeenCalledWith(

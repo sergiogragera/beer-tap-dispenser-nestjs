@@ -4,6 +4,7 @@ import { DispenserClosedEvent } from '../../../dispenser/domain/events/dispenser
 import { DispenserUsage } from '../../../dispenser/domain/models/dispenser-usage';
 import { DispenserUsageRepository } from '../../../dispenser/domain/persistence/dispenser-usage.repository';
 import { DispenserRepository } from '../../../dispenser/domain/persistence/dispenser.repository';
+import { DispenserNotFoundException } from '../../../dispenser/domain/exceptions/dispenser-not-found.exception';
 
 @EventsHandler(DispenserClosedEvent)
 export class DispenserClosedHandler
@@ -24,6 +25,9 @@ export class DispenserClosedHandler
       `dispenser with id ${dispenserId.value} closed successfully`,
     );
     const dispenser = await this.dispenserRepository.findById(dispenserId);
+    if (!dispenser) {
+      throw new DispenserNotFoundException(dispenserId);
+    }
     const usage = DispenserUsage.create(dispenser);
     await this.dispenserUsageRepository.save(usage);
     this.logger.log(

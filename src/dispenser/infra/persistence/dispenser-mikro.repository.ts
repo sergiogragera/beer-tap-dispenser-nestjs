@@ -9,7 +9,7 @@ import { DispenserId } from '../../domain/models/value-objects/dispenser-id.valu
 export class DispenserMikroRepository implements DispenserRepository {
   constructor(private readonly entityManager: EntityManager) {}
 
-  async findById(id: DispenserId): Promise<Dispenser | undefined> {
+  async findById(id: DispenserId): Promise<Dispenser | null> {
     const dispenser = await this.entityManager.findOne(
       DispenserMikroEntity,
       id.value,

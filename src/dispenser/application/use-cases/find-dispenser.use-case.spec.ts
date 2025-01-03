@@ -16,7 +16,7 @@ describe('FindDispenserUseCase', () => {
   it('should throw DispenserNotFoundException when not found', async () => {
     const id = DispenserId.create();
 
-    jest.spyOn(repository, 'findById').mockResolvedValue(undefined);
+    jest.spyOn(repository, 'findById').mockResolvedValue(null);
 
     expect(useCase.execute(id)).rejects.toThrow(DispenserNotFoundException);
   });

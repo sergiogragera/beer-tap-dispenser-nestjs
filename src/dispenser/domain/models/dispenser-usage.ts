@@ -2,8 +2,8 @@ import { Dispenser } from './dispenser';
 import { DispenserFlowVolume } from './value-objects/dispenser-flow-volume.value-object';
 import { DispenserId } from './value-objects/dispenser-id.value-object';
 import { DispenserSpent } from './value-objects/dispenser-spent.value-object';
-import { DispenserStatus } from './value-objects/dispenser-status.value-object';
 import { DispenserUsageId } from './value-objects/dispenser-usage-id.value-object';
+import { DispenserUsageStatus } from './value-objects/dispenser-usage-status.value-object';
 
 export interface DispenserUsagePrimitives {
   id: string;
@@ -19,7 +19,7 @@ export class DispenserUsage {
     readonly id: DispenserUsageId,
     readonly dispenserId: DispenserId,
     readonly flowVolume: DispenserFlowVolume,
-    readonly status: DispenserStatus,
+    readonly status: DispenserUsageStatus,
     private _totalSpent: DispenserSpent,
   ) {}
 
@@ -28,11 +28,7 @@ export class DispenserUsage {
   }
 
   static create(dispenser: Dispenser) {
-    if (!dispenser) {
-      throw new Error('dispenser must not be null');
-    }
-
-    if (!dispenser.status.openedAt || !dispenser.status.closedAt) {
+    if (!dispenser.status.openedAtDate || !dispenser.status.closedAtDate) {
       throw new Error('dispenser must be closed');
     }
 
@@ -41,12 +37,16 @@ export class DispenserUsage {
       dispenser.flowVolume,
       dispenser.status.secondsOpened,
     );
+    const status = DispenserUsageStatus.create(
+      dispenser.status.openedAtDate,
+      dispenser.status.closedAtDate,
+    );
 
     return new DispenserUsage(
       id,
       dispenser.id,
       dispenser.flowVolume,
-      dispenser.status,
+      status,
       totalSpent,
     );
   }
@@ -67,7 +67,7 @@ export class DispenserUsage {
       DispenserUsageId.fromString(primitives.id),
       DispenserId.fromString(primitives.dispenserId),
       DispenserFlowVolume.fromString(primitives.flowVolume),
-      DispenserStatus.create(
+      DispenserUsageStatus.create(
         new Date(primitives.openedAt),
         new Date(primitives.closedAt),
       ),
