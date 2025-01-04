@@ -1,7 +1,15 @@
-import { Controller, Param, ParseUUIDPipe, Get } from '@nestjs/common';
+import {
+  Controller,
+  Param,
+  ParseUUIDPipe,
+  Get,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { FindDispenserSpendingsUseCase } from '../../application/use-cases/find-dispenser-spendings.use-case';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { HistoricalUsageDto } from '../../domain/dto/historical-usage.dto';
+import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
 
 @Controller('dispenser/:id/spending')
 export class DispenserSpendingController {
@@ -13,8 +21,19 @@ export class DispenserSpendingController {
   async findAll(
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<HistoricalUsageDto[]> {
-    return this.findDispenserSpendingsUseCase.execute(
-      DispenserId.fromString(id),
-    );
+    try {
+      return await this.findDispenserSpendingsUseCase.execute(
+        DispenserId.fromString(id),
+      );
+    } catch (error) {
+      if (error instanceof DispenserNotFoundException) {
+        throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+      }
+
+      throw new HttpException(
+        'Unexpected error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { Dispenser } from '../../domain/models/dispenser';
 import { DispenserController } from './dispenser.controller';
 import { CreateDispenserUseCase } from '../../application/use-cases/create-dispenser.use-case';
-import { CreateDispenserDto } from './dto/create-dispenser.dto';
+import { CreateDispenserDto } from './dto/request/create-dispenser.dto';
 import { FindDispenserUseCase } from '../../application/use-cases/find-dispenser.use-case';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser-flow-volume.value-object';

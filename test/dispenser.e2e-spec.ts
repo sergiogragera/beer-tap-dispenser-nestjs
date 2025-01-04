@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { CreateDispenserDto } from '../../src/dispenser/infra/controllers/dto/create-dispenser.dto';
-import { DispenserFlowVolume } from '../../src/dispenser/domain/models/value-objects/dispenser-flow-volume.value-object';
-import { DispenserMikroEntity } from '../../src/dispenser/infra/persistence/dispenser-mikro.entity';
+import { CreateDispenserDto } from '../src/dispenser/infra/controllers/dto/request/create-dispenser.dto';
+import { DispenserFlowVolume } from '../src/dispenser/domain/models/value-objects/dispenser-flow-volume.value-object';
+import { DispenserMikroEntity } from '../src/dispenser/infra/persistence/dispenser-mikro.entity';
 import { EntityManager, MikroORM } from '@mikro-orm/postgresql';
-import { DispenserBuilder } from '../../test/builders/dispenser.builder';
-import { AppModule } from '../../src/app.module';
+import { DispenserBuilder } from './builders/dispenser.builder';
+import { AppModule } from '../src/app.module';
 
 describe('DispenserController (e2e)', () => {
   let app: INestApplication;

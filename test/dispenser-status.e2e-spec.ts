@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { DispenserFlowVolume } from '../../src/dispenser/domain/models/value-objects/dispenser-flow-volume.value-object';
-import { DispenserMikroEntity } from '../../src/dispenser/infra/persistence/dispenser-mikro.entity';
+import { DispenserFlowVolume } from '../src/dispenser/domain/models/value-objects/dispenser-flow-volume.value-object';
+import { DispenserMikroEntity } from '../src/dispenser/infra/persistence/dispenser-mikro.entity';
 import { EntityManager, MikroORM } from '@mikro-orm/postgresql';
-import { UpdateStatusDispenserDto } from 'src/dispenser/infra/controllers/dto/update-status-dispenser.dto';
-import { DispenserStatus } from '../../src/dispenser/domain/enums/dispenser-status.enum';
-import { DispenserUsageMikroEntity } from '../../src/dispenser/infra/persistence/dispenser-usage-mikro.entity';
-import { AppModule } from '../../src/app.module';
-import { DispenserBuilder } from '../builders/dispenser.builder';
+import { UpdateStatusDispenserDto } from 'src/dispenser/infra/controllers/dto/request/update-status-dispenser.dto';
+import { DispenserStatus } from '../src/dispenser/domain/enums/dispenser-status.enum';
+import { DispenserUsageMikroEntity } from '../src/dispenser/infra/persistence/dispenser-usage-mikro.entity';
+import { AppModule } from '../src/app.module';
+import { DispenserBuilder } from './builders/dispenser.builder';
 
 describe('DispenserStatusController (e2e)', () => {
   let app: INestApplication;

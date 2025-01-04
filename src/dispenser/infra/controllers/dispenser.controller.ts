@@ -5,8 +5,9 @@ import {
   Param,
   Get,
   ParseUUIDPipe,
+  HttpCode,
 } from '@nestjs/common';
-import { CreateDispenserDto } from './dto/create-dispenser.dto';
+import { CreateDispenserDto } from './dto/request/create-dispenser.dto';
 import { CreateDispenserUseCase } from '../../application/use-cases/create-dispenser.use-case';
 import { DispenserPrimitives } from '../../domain/models/dispenser';
 import { FindDispenserUseCase } from '../../application/use-cases/find-dispenser.use-case';
@@ -28,6 +29,7 @@ export class DispenserController {
   }
 
   @Post()
+  @HttpCode(200)
   async create(
     @Body() createDispenserDto: CreateDispenserDto,
   ): Promise<DispenserPrimitives> {

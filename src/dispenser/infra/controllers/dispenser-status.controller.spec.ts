@@ -2,7 +2,7 @@ import { Dispenser } from '../../domain/models/dispenser';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { DispenserStatusController } from './dispenser-status.controller';
 import { UpdateStatusDispenserUseCase } from '../../application/use-cases/update-status-dispenser.use-case';
-import { UpdateStatusDispenserDto } from './dto/update-status-dispenser.dto';
+import { UpdateStatusDispenserDto } from './dto/request/update-status-dispenser.dto';
 import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';
 import mock from 'jest-mock-extended/lib/Mock';
 

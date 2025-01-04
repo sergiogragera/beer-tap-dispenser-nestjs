@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsOptional } from 'class-validator';
-import { DispenserStatus } from '../../../domain/enums/dispenser-status.enum';
+import { DispenserStatus } from '../../../../domain/enums/dispenser-status.enum';
 
 export class UpdateStatusDispenserDto {
   @ApiProperty({
