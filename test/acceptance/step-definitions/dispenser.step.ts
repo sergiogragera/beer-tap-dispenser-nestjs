@@ -58,6 +58,7 @@ export class DispenserSteps {
 
   @given(/the user gets the created dispenser spendings/)
   public async theUserGetsCreatedDispenserSpendings() {
+    await this.delay(100);
     const dispenserId = this.context.response.body.id;
     this.context.response = await request(this.context.app.getHttpServer()).get(
       `/dispenser/${dispenserId}/spending`,
@@ -114,5 +115,9 @@ export class DispenserSteps {
     return request(this.context.app.getHttpServer())
       .post('/dispenser')
       .send(createDispenserDto);
+  }
+
+  private async delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
