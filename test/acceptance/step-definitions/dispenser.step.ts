@@ -75,13 +75,13 @@ export class DispenserSteps {
   }
 
   @then(/the total amount is equals to ([0-9]+)/)
-  public totalAmountEqualsTo(totalAmount: number) {
-    assert.equal(this.context.response.body.total, totalAmount);
+  public totalAmountEqualsTo(amount: number) {
+    assert.equal(this.context.response.body.amount, amount);
   }
 
   @then(/the total amount is greater than ([0-9]+)/)
-  public totalAmountGreaterThan(totalAmount: number) {
-    assert.isTrue(this.context.response.body.total > totalAmount);
+  public totalAmountGreaterThan(amount: number) {
+    assert.isAtLeast(this.context.response.body.amount, +amount);
   }
 
   @then(/exists ([0-9]+) usages?/)
