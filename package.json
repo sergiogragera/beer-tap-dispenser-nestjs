@@ -55,7 +55,6 @@
     "@typescript-eslint/parser": "^8.0.0",
     "chai": "^5.1.2",
     "cucumber": "^6.0.7",
-    "cucumber-pretty": "^6.0.1",
     "cucumber-tsflow": "^4.4.4",
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^9.0.0",

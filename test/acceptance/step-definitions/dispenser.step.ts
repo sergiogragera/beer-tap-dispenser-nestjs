@@ -58,7 +58,7 @@ export class DispenserSteps {
 
   @given(/the user gets the created dispenser spendings/)
   public async theUserGetsCreatedDispenserSpendings() {
-    await this.delay(100);
+    await this.delay(200);
     const dispenserId = this.context.response.body.id;
     this.context.response = await request(this.context.app.getHttpServer()).get(
       `/dispenser/${dispenserId}/spending`,
