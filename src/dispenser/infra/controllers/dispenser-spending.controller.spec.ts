@@ -5,8 +5,7 @@ import { FindDispenserSpendingsUseCase } from '../../application/use-cases/find-
 import { DispenserSpendingController } from './dispenser-spending.controller';
 import { DispenserUsage } from '../../domain/models/dispenser-usage';
 import { DispenserUsageId } from '../../domain/models/value-objects/dispenser-usage-id.value-object';
-import { DispenserResponseAdapter } from './adapters/dispenser-response.adapter';
-import { SpendingResponseAdapter } from './adapters/spending-response.adapter';
+import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
 
 describe('DispenserSpendingController', () => {
   const useCase = mock<FindDispenserSpendingsUseCase>();
@@ -14,6 +13,18 @@ describe('DispenserSpendingController', () => {
 
   beforeEach(() => {
     controller = new DispenserSpendingController(useCase);
+  });
+
+  it('should throw Error when dispenser not found', async () => {
+    const id = DispenserId.create();
+
+    jest
+      .spyOn(useCase, 'execute')
+      .mockRejectedValue(new DispenserNotFoundException(id));
+
+    expect(controller.findAll(id.value)).rejects.toThrow('Dispenser not found');
+
+    expect(useCase.execute).toHaveBeenCalledWith(id);
   });
 
   it('should update dispenser status', async () => {

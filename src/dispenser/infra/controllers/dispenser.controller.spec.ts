@@ -7,6 +7,7 @@ import { DispenserId } from '../../domain/models/value-objects/dispenser-id.valu
 import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser-flow-volume.value-object';
 import mock from 'jest-mock-extended/lib/Mock';
 import { DispenserResponseAdapter } from './adapters/dispenser-response.adapter';
+import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
 
 describe('DispenserController', () => {
   const findDispenserUseCase = mock<FindDispenserUseCase>();
@@ -18,6 +19,20 @@ describe('DispenserController', () => {
       findDispenserUseCase,
       createDispenserUseCase,
     );
+  });
+
+  it('should throw Error when dispenser not found', async () => {
+    const id = DispenserId.create();
+
+    jest
+      .spyOn(findDispenserUseCase, 'execute')
+      .mockRejectedValue(new DispenserNotFoundException(id));
+
+    expect(controller.findById(id.value)).rejects.toThrow(
+      'Dispenser not found',
+    );
+
+    expect(findDispenserUseCase.execute).toHaveBeenCalledWith(id);
   });
 
   it('should return dispenser', async () => {

@@ -23,6 +23,8 @@ import {
   ApiOperation,
   ApiParam,
 } from '@nestjs/swagger';
+import { DispenserResponseDto } from './dto/response/dispenser-response.dto';
+import { DispenserResponseAdapter } from './adapters/dispenser-response.adapter';
 
 @Controller('dispenser/:id/status')
 export class DispenserStatusController {
@@ -46,6 +48,7 @@ The status could be:
     description: 'Dispenser Id',
   })
   @ApiAcceptedResponse({
+    type: DispenserResponseDto,
     description: 'Status of the tap changed correctly',
   })
   @ApiConflictResponse({
@@ -57,14 +60,15 @@ The status could be:
   async updateStatus(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateDispenserDto: UpdateStatusDispenserDto,
-  ): Promise<void> {
+  ): Promise<DispenserResponseDto> {
     try {
       const updatedAt = new Date(updateDispenserDto.updated_at ?? Date.now());
-      await this.updateStatusDispenserUseCase.execute(
+      const dispenser = await this.updateStatusDispenserUseCase.execute(
         DispenserId.fromString(id),
         updateDispenserDto.status,
         updatedAt,
       );
+      return DispenserResponseAdapter.adapt(dispenser);
     } catch (error) {
       if (
         error instanceof DispenserAlreadyOpenedException ||

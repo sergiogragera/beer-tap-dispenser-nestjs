@@ -5,7 +5,8 @@ import { UpdateStatusDispenserUseCase } from '../../application/use-cases/update
 import { UpdateStatusDispenserDto } from './dto/request/update-status-dispenser.dto';
 import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';
 import mock from 'jest-mock-extended/lib/Mock';
-import { DispenserResponseDto } from './dto/response/dispenser-response.dto';
+import { DispenserAlreadyOpenedException } from '../../domain/exceptions/dispenser-already-opened.exception';
+import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
 import { DispenserResponseAdapter } from './adapters/dispenser-response.adapter';
 
 describe('DispenserStatusController', () => {
@@ -14,6 +15,46 @@ describe('DispenserStatusController', () => {
 
   beforeEach(() => {
     controller = new DispenserStatusController(useCase);
+  });
+
+  it('should throw Error when dispenser already open/close', async () => {
+    const id = DispenserId.create();
+
+    const now = new Date();
+    const updateStatusDto: UpdateStatusDispenserDto = {
+      status: DispenserStatus.OPEN,
+      updated_at: now.toISOString(),
+    };
+
+    jest
+      .spyOn(useCase, 'execute')
+      .mockRejectedValue(new DispenserAlreadyOpenedException(id));
+
+    expect(controller.updateStatus(id.value, updateStatusDto)).rejects.toThrow(
+      'Dispenser is already opened/closed',
+    );
+
+    expect(useCase.execute).toHaveBeenCalledWith(id, DispenserStatus.OPEN, now);
+  });
+
+  it('should throw Error when dispenser not found', async () => {
+    const id = DispenserId.create();
+
+    const now = new Date();
+    const updateStatusDto: UpdateStatusDispenserDto = {
+      status: DispenserStatus.OPEN,
+      updated_at: now.toISOString(),
+    };
+
+    jest
+      .spyOn(useCase, 'execute')
+      .mockRejectedValue(new DispenserNotFoundException(id));
+
+    expect(controller.updateStatus(id.value, updateStatusDto)).rejects.toThrow(
+      'Dispenser not found',
+    );
+
+    expect(useCase.execute).toHaveBeenCalledWith(id, DispenserStatus.OPEN, now);
   });
 
   it('should update dispenser status', async () => {
@@ -33,8 +74,12 @@ describe('DispenserStatusController', () => {
 
     jest.spyOn(useCase, 'execute').mockResolvedValue(dispenser.toPrimitives());
 
-    await controller.updateStatus(id.value, updateStatusDto);
+    const response = await controller.updateStatus(id.value, updateStatusDto);
+    const expectedResponse = DispenserResponseAdapter.adapt(
+      dispenser.toPrimitives(),
+    );
 
     expect(useCase.execute).toHaveBeenCalledWith(id, DispenserStatus.OPEN, now);
+    expect(response).toEqual(expectedResponse);
   });
 });

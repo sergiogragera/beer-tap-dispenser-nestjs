@@ -1,5 +1,4 @@
 import {
-  assign,
   DateTimeType,
   DecimalType,
   Entity,

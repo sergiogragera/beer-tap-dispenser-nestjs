@@ -10,8 +10,11 @@ import { FindDispenserSpendingsUseCase } from '../../application/use-cases/find-
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
 import { SpendingResponseDto } from './dto/response/spending-response.dto';
-import { HistoricalUsageDto } from '../../domain/dto/historical-usage.dto';
-import { ApiConflictResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+} from '@nestjs/swagger';
 import { SpendingResponseAdapter } from './adapters/spending-response.adapter';
 
 @Controller('dispenser/:id/spending')
