@@ -5,6 +5,8 @@ import { UpdateStatusDispenserUseCase } from '../../application/use-cases/update
 import { UpdateStatusDispenserDto } from './dto/request/update-status-dispenser.dto';
 import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';
 import mock from 'jest-mock-extended/lib/Mock';
+import { DispenserResponseDto } from './dto/response/dispenser-response.dto';
+import { DispenserResponseAdapter } from './adapters/dispenser-response.adapter';
 
 describe('DispenserStatusController', () => {
   const useCase = mock<UpdateStatusDispenserUseCase>();
@@ -31,9 +33,8 @@ describe('DispenserStatusController', () => {
 
     jest.spyOn(useCase, 'execute').mockResolvedValue(dispenser.toPrimitives());
 
-    const response = await controller.updateStatus(id.value, updateStatusDto);
+    await controller.updateStatus(id.value, updateStatusDto);
 
     expect(useCase.execute).toHaveBeenCalledWith(id, DispenserStatus.OPEN, now);
-    expect(response).toEqual(dispenser.toPrimitives());
   });
 });

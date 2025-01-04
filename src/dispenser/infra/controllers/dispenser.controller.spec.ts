@@ -6,6 +6,7 @@ import { FindDispenserUseCase } from '../../application/use-cases/find-dispenser
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser-flow-volume.value-object';
 import mock from 'jest-mock-extended/lib/Mock';
+import { DispenserResponseAdapter } from './adapters/dispenser-response.adapter';
 
 describe('DispenserController', () => {
   const findDispenserUseCase = mock<FindDispenserUseCase>();
@@ -33,9 +34,12 @@ describe('DispenserController', () => {
       .mockResolvedValue(dispenser.toPrimitives());
 
     const response = await controller.findById(id.value);
+    const expectedResponse = DispenserResponseAdapter.adapt(
+      dispenser.toPrimitives(),
+    );
 
     expect(findDispenserUseCase.execute).toHaveBeenCalledWith(id);
-    expect(response).toEqual(dispenser.toPrimitives());
+    expect(response).toEqual(expectedResponse);
   });
 
   it('should create an opened dispenser', async () => {
@@ -52,8 +56,11 @@ describe('DispenserController', () => {
       .mockResolvedValue(dispenser.toPrimitives());
 
     const response = await controller.create(createDispenserDto);
+    const expectedResponse = DispenserResponseAdapter.adapt(
+      dispenser.toPrimitives(),
+    );
 
     expect(createDispenserUseCase.execute).toHaveBeenCalledWith(flowVolume);
-    expect(response).toEqual(dispenser.toPrimitives());
+    expect(response).toEqual(expectedResponse);
   });
 });

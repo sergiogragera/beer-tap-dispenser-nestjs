@@ -24,5 +24,5 @@ export class UsageLineResponseDto {
     type: Number,
     example: 2.0653,
   })
-  totl_spent!: number;
+  total_spent!: number;
 }

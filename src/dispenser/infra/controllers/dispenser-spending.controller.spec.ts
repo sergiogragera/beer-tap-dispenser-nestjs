@@ -5,6 +5,8 @@ import { FindDispenserSpendingsUseCase } from '../../application/use-cases/find-
 import { DispenserSpendingController } from './dispenser-spending.controller';
 import { DispenserUsage } from '../../domain/models/dispenser-usage';
 import { DispenserUsageId } from '../../domain/models/value-objects/dispenser-usage-id.value-object';
+import { DispenserResponseAdapter } from './adapters/dispenser-response.adapter';
+import { SpendingResponseAdapter } from './adapters/spending-response.adapter';
 
 describe('DispenserSpendingController', () => {
   const useCase = mock<FindDispenserSpendingsUseCase>();
@@ -39,6 +41,16 @@ describe('DispenserSpendingController', () => {
     const response = await controller.findAll(id.value);
 
     expect(useCase.execute).toHaveBeenCalledWith(id);
-    expect(response).toEqual([dispenserUsage.toPrimitives()]);
+    expect(response).toEqual({
+      amount: 100,
+      usages: [
+        {
+          flow_volume: 0.00001,
+          total_spent: 100,
+          opened_at: '2/1/2025, 10:59:35 AM',
+          closed_at: '2/1/2025, 11:00:35 AM',
+        },
+      ],
+    });
   });
 });
