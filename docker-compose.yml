@@ -1,0 +1,44 @@
+services:
+  ddd-nestjs-beer-tap-dispenser-api:
+    container_name: ddd-nestjs-beer-tap-dispenser-api
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      ddd-nestjs-beer-tap-dispenser-db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    networks:
+      - beer-tap-network
+    environment:
+      DATABASE_HOST: ddd-nestjs-beer-tap-dispenser-db
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_NAME: postgres
+
+  ddd-nestjs-beer-tap-dispenser-db:
+    container_name: ddd-nestjs-beer-tap-dispenser-db
+    image: postgres:15
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    networks:
+      - beer-tap-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:
+
+networks:
+  beer-tap-network:
+    driver: bridge
