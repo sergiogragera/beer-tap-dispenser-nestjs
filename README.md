@@ -18,8 +18,13 @@ The aim of this API is to allow organizers to set up these bar counters allowing
 So, once an attendee wants to drink a beer they just need to open the tap! The API will start counting how much flow
 comes out and, depending on the price, calculate the total amount of money.
 
-You could find the whole description of the API in the [OpenAPI description file](/api.spec.yaml) and send request to a
-mock server with [this URL](https://rviewer.stoplight.io/docs/beer-tap-dispenser/juus8uwnzzal5-beer-tap-dispenser)
+You could find the whole description of the API in the [OpenAPI description file](/api.spec.yaml) or running application [swagger spec](http://localhost:3000/api/).
+
+You can run application by following command:
+
+`make up` or alternatively with `docker compose run -p "3000:3000" ddd-nestjs-beer-tap-dispenser-api`
+
+You can run this container with `devcontainers`if you are using `vscode` and execute npm commands.
 
 ### Workflow
 
@@ -51,21 +56,3 @@ service.
   comes when it does not have tests. So try to create tests covering, at least, the main classes.
 * **Document your decisions**. Try to explain your decisions, as well as any other technical requirement (how to run the
   API, external dependencies, etc ...)
-
-## How to submit your solution
-
-* Push your code to the `devel` branch - we encourage you to commit regularly to show your thinking process was.
-* **Create a new Pull Request** to `main` branch & **merge it**.
-
-Once merged you **won't be able to change or add** anything to your solution, so double-check that everything is as
-you expected!
-
-Remember that **there is no countdown**, so take your time and implement a solution that you are proud!
-
---- 
-
-<p align="center">
-  If you have any feedback or problem, <a href="mailto:help@rviewer.io">let us know!</a> 🤘
-  <br><br>
-  Made with ❤️ by <a href="https://rviewer.io">Rviewer</a>
-</p>
