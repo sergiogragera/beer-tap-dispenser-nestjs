@@ -44,6 +44,24 @@ export class DispenserSteps {
     );
   }
 
+  @given(/the user open concurrently the dispenser ([0-9]+) times/)
+  public async theUserOpenConcurrentlyTheDispenser(times: number) {
+    const updateStatusRequest: UpdateStatusDispenserDto = {
+      status: DispenserStatus.OPEN,
+    };
+
+    const promises = [];
+    for (let i = 0; i < times; i++) {
+      promises.push(this.updateStatusDispenser(updateStatusRequest));
+    }
+    const responses = await Promise.all(promises);
+    for (const response of responses) {
+      if (response.status !== 202) {
+        this.context.response = response;
+      }
+    }
+  }
+
   @given(/the user close the dispenser( ([0-9]+) seconds? ago)?/)
   public async theUserCloseTheDispenser(secondsAgo: number) {
     const updateStatusRequest: UpdateStatusDispenserDto = {
@@ -58,7 +76,6 @@ export class DispenserSteps {
 
   @given(/the user gets the created dispenser spendings/)
   public async theUserGetsCreatedDispenserSpendings() {
-    await this.delay(200);
     const dispenserId = this.context.response.body.id;
     this.context.response = await request(this.context.app.getHttpServer()).get(
       `/dispenser/${dispenserId}/spending`,
@@ -115,9 +132,5 @@ export class DispenserSteps {
     return request(this.context.app.getHttpServer())
       .post('/dispenser')
       .send(createDispenserDto);
-  }
-
-  private async delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
