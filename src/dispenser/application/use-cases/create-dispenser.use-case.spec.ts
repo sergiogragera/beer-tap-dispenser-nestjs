@@ -12,6 +12,7 @@ describe('CreateDispenserUseCase', () => {
 
   beforeEach(() => {
     useCase = new CreateDispenserUseCase(repository);
+    jest.resetAllMocks();
   });
 
   it('should return a valid dispenser', async () => {

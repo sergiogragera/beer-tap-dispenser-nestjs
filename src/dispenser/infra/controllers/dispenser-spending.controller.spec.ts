@@ -13,6 +13,7 @@ describe('DispenserSpendingController', () => {
 
   beforeEach(() => {
     controller = new DispenserSpendingController(useCase);
+    jest.resetAllMocks();
   });
 
   it('should throw Error when unhandled exception', async () => {
@@ -70,8 +71,8 @@ describe('DispenserSpendingController', () => {
         {
           flow_volume: 0.00001,
           total_spent: 100,
-          opened_at: '2/1/2025, 10:59:35 AM',
-          closed_at: '2/1/2025, 11:00:35 AM',
+          opened_at: '2025-02-01T10:59:35.000Z',
+          closed_at: '2025-02-01T11:00:35.000Z',
         },
       ],
     });

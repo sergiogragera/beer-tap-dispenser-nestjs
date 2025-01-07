@@ -4,7 +4,6 @@ import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser
 import { UpdateStatusDispenserUseCase } from './update-status-dispenser.use-case';
 import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';
 import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
-import { EventPublisher } from '@nestjs/cqrs';
 import { mock } from 'jest-mock-extended';
 
 describe('UpdateStatusDispenserUseCase', () => {
@@ -13,6 +12,7 @@ describe('UpdateStatusDispenserUseCase', () => {
 
   beforeEach(() => {
     useCase = new UpdateStatusDispenserUseCase(repository);
+    jest.resetAllMocks();
   });
 
   it('should throw DispenserNotFoundException when dispenser not found', async () => {

@@ -116,7 +116,7 @@ export class DispenserSteps {
       const now = new Date();
       updateStatusRequest.updated_at = new Date(
         now.getTime() - secondsAgo * 1000,
-      ).toLocaleString();
+      ).toISOString();
     }
 
     const dispenserId = this.context.response.body.id;

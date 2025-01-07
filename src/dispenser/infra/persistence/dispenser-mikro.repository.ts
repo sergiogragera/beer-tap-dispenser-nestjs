@@ -63,6 +63,7 @@ export class DispenserMikroRepository implements DispenserRepository {
         }
         throw new DispenserAlreadyOpenedException(dispenser.id);
       }
+      throw error;
     }
 
     return Dispenser.fromPrimitives(updateDispenser);

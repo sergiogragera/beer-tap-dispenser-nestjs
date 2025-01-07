@@ -18,6 +18,7 @@ describe('FindDispenserSpendingsUseCase', () => {
       dispenserRepository,
       usageRepository,
     );
+    jest.resetAllMocks();
   });
 
   it('should throw DispenserNotFoundException when not found', async () => {
@@ -48,7 +49,7 @@ describe('FindDispenserSpendingsUseCase', () => {
         dispenserId: dispenser.id.value,
         flowVolume: '0.0001',
         totalSpent: expect.any(String),
-        openedAt: '1/1/2025, 10:59:35 AM',
+        openedAt: '2025-01-01T10:59:35.000Z',
       },
     ]);
   });
@@ -83,14 +84,14 @@ describe('FindDispenserSpendingsUseCase', () => {
         dispenserId: dispenser.id.value,
         flowVolume: dispenserUsage.flowVolume.value,
         totalSpent: '100',
-        openedAt: '2/1/2025, 10:59:35 AM',
-        closedAt: '2/1/2025, 11:00:35 AM',
+        openedAt: '2025-02-01T10:59:35.000Z',
+        closedAt: '2025-02-01T11:00:35.000Z',
       },
       {
         dispenserId: dispenser.id.value,
         flowVolume: '0.0001',
         totalSpent: expect.any(String),
-        openedAt: '1/1/2025, 10:59:35 AM',
+        openedAt: '2025-01-01T10:59:35.000Z',
       },
     ]);
   });

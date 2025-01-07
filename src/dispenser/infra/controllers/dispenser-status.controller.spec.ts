@@ -15,6 +15,7 @@ describe('DispenserStatusController', () => {
 
   beforeEach(() => {
     controller = new DispenserStatusController(useCase);
+    jest.resetAllMocks();
   });
 
   it('should throw Error when unhandled exception', async () => {

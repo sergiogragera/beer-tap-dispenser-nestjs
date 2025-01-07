@@ -19,7 +19,7 @@ describe('DispenserStatus', () => {
   it('create valid opened', () => {
     const now = new Date();
     const openedStatus = DispenserStatus.create(now);
-    expect(openedStatus.openedAt).toEqual(now.toLocaleString());
+    expect(openedStatus.openedAt).toEqual(now.toISOString());
     expect(openedStatus.closedAt).toBeUndefined();
     expect(openedStatus.isOpened()).toBeTruthy();
   });
@@ -28,8 +28,8 @@ describe('DispenserStatus', () => {
     const now = new Date();
     const tenSecondsAgo = new Date(now.getTime() - 10000);
     const closedStatus = DispenserStatus.create(tenSecondsAgo, now);
-    expect(closedStatus.openedAt).toEqual(tenSecondsAgo.toLocaleString());
-    expect(closedStatus.closedAt).toEqual(now.toLocaleString());
+    expect(closedStatus.openedAt).toEqual(tenSecondsAgo.toISOString());
+    expect(closedStatus.closedAt).toEqual(now.toISOString());
     expect(closedStatus.secondsOpened).toEqual(10);
     expect(closedStatus.isOpened()).toBeFalsy();
 

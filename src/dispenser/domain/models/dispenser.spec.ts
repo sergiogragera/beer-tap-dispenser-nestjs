@@ -10,13 +10,15 @@ describe('Dispenser', () => {
     const dispenserPrimitives: DispenserPrimitives = {
       id: '317ba3b4-a7b0-478b-83f6-9b99daa762b8',
       flowVolume: '0.0001',
-      openedAt: '1/1/2025, 10:59:35 AM',
+      openedAt: '2025-01-01T10:59:35.000Z',
     };
 
     const dispenser = Dispenser.fromPrimitives(dispenserPrimitives);
     expect(dispenser.toPrimitives()).toEqual({
-      ...dispenserPrimitives,
+      id: '317ba3b4-a7b0-478b-83f6-9b99daa762b8',
       version: 1,
+      flowVolume: '0.0001',
+      openedAt: '2025-01-01T10:59:35.000Z',
       closedAt: undefined,
     });
   });
@@ -34,8 +36,8 @@ describe('Dispenser', () => {
       id: '317ba3b4-a7b0-478b-83f6-9b99daa762b8',
       version: 1,
       flowVolume: '0.0001',
-      openedAt: '1/1/2025, 10:59:35 AM',
-      closedAt: '1/1/2025, 11:01:22 AM',
+      openedAt: '2025-01-01T10:59:35.000Z',
+      closedAt: '2025-01-01T11:01:22.000Z',
     });
   });
 
@@ -94,7 +96,7 @@ describe('Dispenser', () => {
       id: expect.any(String),
       version: 1,
       flowVolume: '0.0001',
-      openedAt: now.toLocaleString(),
+      openedAt: now.toISOString(),
       closedAt: undefined,
     });
   });
@@ -138,8 +140,8 @@ describe('Dispenser', () => {
       id: expect.any(String),
       version: 1,
       flowVolume: '0.0001',
-      openedAt: aMinuteAgo.toLocaleString(),
-      closedAt: now.toLocaleString(),
+      openedAt: aMinuteAgo.toISOString(),
+      closedAt: now.toISOString(),
     });
   });
 });

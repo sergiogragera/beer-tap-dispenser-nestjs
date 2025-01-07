@@ -15,10 +15,10 @@ export class DispenserUsageStatus {
   }
 
   get openedAt(): string {
-    return this.openedAtDate.toLocaleString();
+    return this.openedAtDate.toISOString();
   }
 
   get closedAt(): string {
-    return this.closedAtDate.toLocaleString();
+    return this.closedAtDate.toISOString();
   }
 }

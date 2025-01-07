@@ -13,7 +13,7 @@ describe('DispenserUsageStatus', () => {
     const now = new Date();
     const tenSecondsAgo = new Date(now.getTime() - 10000);
     const closedStatus = DispenserUsageStatus.create(tenSecondsAgo, now);
-    expect(closedStatus.openedAt).toEqual(tenSecondsAgo.toLocaleString());
-    expect(closedStatus.closedAt).toEqual(now.toLocaleString());
+    expect(closedStatus.openedAt).toEqual(tenSecondsAgo.toISOString());
+    expect(closedStatus.closedAt).toEqual(now.toISOString());
   });
 });

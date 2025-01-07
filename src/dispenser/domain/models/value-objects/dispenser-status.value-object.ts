@@ -15,11 +15,11 @@ export class DispenserStatus {
   }
 
   get openedAt(): string | undefined {
-    return this.openedAtDate?.toLocaleString();
+    return this.openedAtDate?.toISOString();
   }
 
   get closedAt(): string | undefined {
-    return this.closedAtDate?.toLocaleString();
+    return this.closedAtDate?.toISOString();
   }
 
   get secondsOpened(): number {

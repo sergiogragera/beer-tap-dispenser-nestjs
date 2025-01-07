@@ -11,6 +11,7 @@ describe('FindDispenserUseCase', () => {
 
   beforeEach(() => {
     useCase = new FindDispenserUseCase(repository);
+    jest.resetAllMocks();
   });
 
   it('should throw DispenserNotFoundException when not found', async () => {

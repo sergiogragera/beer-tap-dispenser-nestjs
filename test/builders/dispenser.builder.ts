@@ -20,7 +20,7 @@ export class DispenserBuilder {
 
   opened(openedAtDate?: Date): this {
     const openedAt = openedAtDate ?? new Date();
-    this.dispenserPrimitives.openedAt = openedAt.toLocaleString();
+    this.dispenserPrimitives.openedAt = openedAt.toISOString();
     return this;
   }
 
@@ -29,8 +29,8 @@ export class DispenserBuilder {
       ? new Date(this.dispenserPrimitives.openedAt)
       : new Date();
     const closedAt = new Date(openedAt.getTime() - secondsAfterOpen * 1000);
-    this.dispenserPrimitives.openedAt = openedAt.toLocaleString();
-    this.dispenserPrimitives.closedAt = closedAt.toLocaleString();
+    this.dispenserPrimitives.openedAt = openedAt.toISOString();
+    this.dispenserPrimitives.closedAt = closedAt.toISOString();
     return this;
   }
 
