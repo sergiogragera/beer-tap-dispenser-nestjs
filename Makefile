@@ -7,7 +7,6 @@ help:
 	@echo "make test                  Run the unit tests"
 	@echo "                           all pass and generate coverage report"
 	@echo "make run                   Run the app's locally"
-	@echo "make docker                Make the app's Docker image"
 	@echo "make run-docker            Run the app's Docker image locally"
 	@echo "                           This command exists for conveniently testing"
 	@echo "                           the Docker image locally in production mode"
@@ -31,10 +30,6 @@ test:
 .PHONY: run
 run:
 	@npm run start
-
-.PHONY: docker
-docker:
-	@git archive --format=tar.gz HEAD | docker build -f Dockerfile.${DOCKER_TAG} -t ddd-nestjs-beer-tap-dispenser-api:$(DOCKER_TAG) -
 
 .PHONY: run-docker
 run-docker:
