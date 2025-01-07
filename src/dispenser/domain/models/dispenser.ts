@@ -1,4 +1,3 @@
-import { AggregateRoot } from '@nestjs/cqrs';
 import { DispenserStatus } from './value-objects/dispenser-status.value-object';
 import { DispenserId } from './value-objects/dispenser-id.value-object';
 import { DispenserFlowVolume } from './value-objects/dispenser-flow-volume.value-object';
@@ -6,27 +5,34 @@ import { DispenserAlreadyOpenedException } from '../exceptions/dispenser-already
 import { DispenserClosedAfterOpenException } from '../exceptions/dispenser-closed-after-open.exception';
 import { DispenserAlreadyClosedException } from '../exceptions/dispenser-already-closed.exception';
 import { DispenserNotOpenedException } from '../exceptions/dispenser-not-opened.exception';
-import { DispenserClosedEvent } from '../events/dispenser-closed.event';
+import { DispenserUsage } from './dispenser-usage';
 
 export interface DispenserPrimitives {
   id: string;
   flowVolume: string;
   openedAt?: string;
   closedAt?: string;
+  version?: number;
 }
 
-export class Dispenser extends AggregateRoot {
+export class Dispenser {
+  private _lastUsages: DispenserUsage[];
+
   constructor(
     readonly id: DispenserId,
     readonly flowVolume: DispenserFlowVolume,
     private _status: DispenserStatus,
+    readonly version = 1,
   ) {
-    super();
-    this.autoCommit = true;
+    this._lastUsages = [];
   }
 
   get status(): DispenserStatus {
     return this._status;
+  }
+
+  get lastUsages(): DispenserUsage[] {
+    return this._lastUsages;
   }
 
   static create(flowVolume: DispenserFlowVolume) {
@@ -43,7 +49,6 @@ export class Dispenser extends AggregateRoot {
       throw new DispenserClosedAfterOpenException(this.id);
     }
     this._status = DispenserStatus.create(openDate);
-    // this.apply(new DispenserOpenedEvent(this.id));
   }
 
   close(closeDate = new Date()) {
@@ -52,8 +57,9 @@ export class Dispenser extends AggregateRoot {
     } else if (this.status.isOpenedAfter(closeDate)) {
       throw new DispenserAlreadyClosedException(this.id);
     }
+
     this._status = DispenserStatus.create(this.status.openedAtDate, closeDate);
-    this.apply(new DispenserClosedEvent(this.id));
+    this._lastUsages.push(DispenserUsage.create(this));
   }
 
   toPrimitives(): DispenserPrimitives {
@@ -62,6 +68,7 @@ export class Dispenser extends AggregateRoot {
       flowVolume: this.flowVolume.value,
       openedAt: this.status.openedAt,
       closedAt: this.status.closedAt,
+      version: this.version,
     };
   }
 
@@ -73,6 +80,7 @@ export class Dispenser extends AggregateRoot {
         primitives.openedAt ? new Date(primitives.openedAt) : undefined,
         primitives.closedAt ? new Date(primitives.closedAt) : undefined,
       ),
+      primitives.version,
     );
   }
 }

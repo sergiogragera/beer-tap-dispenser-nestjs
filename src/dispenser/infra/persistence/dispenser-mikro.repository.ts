@@ -2,8 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { Dispenser } from '../../domain/models/dispenser';
 import { DispenserRepository } from '../../domain/persistence/dispenser.repository';
 import { DispenserMikroEntity } from './dispenser-mikro.entity';
-import { EntityManager } from '@mikro-orm/postgresql';
+import { EntityManager, OptimisticLockError } from '@mikro-orm/postgresql';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
+import { DispenserUsageMikroEntity } from './dispenser-usage-mikro.entity';
+import { DispenserAlreadyClosedException } from '../../domain/exceptions/dispenser-already-closed.exception';
+import { DispenserAlreadyOpenedException } from '../../domain/exceptions/dispenser-already-opened.exception';
 
 @Injectable()
 export class DispenserMikroRepository implements DispenserRepository {
@@ -41,7 +44,26 @@ export class DispenserMikroRepository implements DispenserRepository {
       updateDispenser,
       dispenserMikro,
     );
-    this.entityManager.persistAndFlush(updateDispenser);
+    this.entityManager.persist(updateDispenser);
+
+    for (const usage of dispenser.lastUsages) {
+      const savedUsage = this.entityManager.create(
+        DispenserUsageMikroEntity,
+        usage.toPrimitives(),
+      );
+      this.entityManager.persist(savedUsage);
+    }
+
+    try {
+      await this.entityManager.flush();
+    } catch (error) {
+      if (error instanceof OptimisticLockError) {
+        if (dispenser.status.closedAtDate !== undefined) {
+          throw new DispenserAlreadyClosedException(dispenser.id);
+        }
+        throw new DispenserAlreadyOpenedException(dispenser.id);
+      }
+    }
 
     return Dispenser.fromPrimitives(updateDispenser);
   }

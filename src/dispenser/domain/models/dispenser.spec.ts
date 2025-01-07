@@ -16,6 +16,7 @@ describe('Dispenser', () => {
     const dispenser = Dispenser.fromPrimitives(dispenserPrimitives);
     expect(dispenser.toPrimitives()).toEqual({
       ...dispenserPrimitives,
+      version: 1,
       closedAt: undefined,
     });
   });
@@ -29,7 +30,13 @@ describe('Dispenser', () => {
     };
 
     const dispenser = Dispenser.fromPrimitives(dispenserPrimitives);
-    expect(dispenser.toPrimitives()).toEqual(dispenserPrimitives);
+    expect(dispenser.toPrimitives()).toEqual({
+      id: '317ba3b4-a7b0-478b-83f6-9b99daa762b8',
+      version: 1,
+      flowVolume: '0.0001',
+      openedAt: '1/1/2025, 10:59:35 AM',
+      closedAt: '1/1/2025, 11:01:22 AM',
+    });
   });
 
   it('create valid dispenser', () => {
@@ -38,6 +45,7 @@ describe('Dispenser', () => {
     );
     expect(dispenser.toPrimitives()).toEqual({
       id: expect.any(String),
+      version: 1,
       flowVolume: '0.0001',
       openedAt: undefined,
       closedAt: undefined,
@@ -83,6 +91,7 @@ describe('Dispenser', () => {
 
     expect(dispenser.toPrimitives()).toEqual({
       id: expect.any(String),
+      version: 1,
       flowVolume: '0.0001',
       openedAt: now.toLocaleString(),
       closedAt: undefined,
@@ -125,6 +134,7 @@ describe('Dispenser', () => {
 
     expect(dispenser.toPrimitives()).toEqual({
       id: expect.any(String),
+      version: 1,
       flowVolume: '0.0001',
       openedAt: aMinuteAgo.toLocaleString(),
       closedAt: now.toLocaleString(),

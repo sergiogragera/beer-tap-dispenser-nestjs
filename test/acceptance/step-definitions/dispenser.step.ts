@@ -55,6 +55,7 @@ export class DispenserSteps {
       promises.push(this.updateStatusDispenser(updateStatusRequest));
     }
     const responses = await Promise.all(promises);
+    this.context.response = undefined;
     for (const response of responses) {
       if (response.status !== 202) {
         this.context.response = response;
@@ -74,7 +75,7 @@ export class DispenserSteps {
     );
   }
 
-  @given(/the user gets the created dispenser spendings/)
+  @given(/the user gets the dispenser spendings/)
   public async theUserGetsCreatedDispenserSpendings() {
     const dispenserId = this.context.response.body.id;
     this.context.response = await request(this.context.app.getHttpServer()).get(

@@ -16,14 +16,4 @@ export class DispenserUsageMikroRepository implements DispenserUsageRepository {
 
     return usages.map((usage) => DispenserUsage.fromPrimitives(usage));
   }
-
-  async save(usage: DispenserUsage): Promise<DispenserUsage> {
-    const savedUsage = this.entityManager.create(
-      DispenserUsageMikroEntity,
-      usage.toPrimitives(),
-    );
-    await this.entityManager.persistAndFlush(savedUsage);
-
-    return DispenserUsage.fromPrimitives(savedUsage);
-  }
 }

@@ -19,6 +19,9 @@ export class CreateDispenserUseCase {
     const dispenser = await this.dispenserRepository.save(
       Dispenser.create(flowVolume),
     );
+    this.logger.log(
+      `created dispenser with id ${dispenser.id.value} successfully`,
+    );
 
     return dispenser.toPrimitives();
   }

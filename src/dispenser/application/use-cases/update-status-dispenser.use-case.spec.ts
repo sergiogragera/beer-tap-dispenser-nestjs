@@ -10,10 +10,9 @@ import { mock } from 'jest-mock-extended';
 describe('UpdateStatusDispenserUseCase', () => {
   let useCase: UpdateStatusDispenserUseCase;
   const repository = mock<DispenserRepository>();
-  const eventPublisher = mock<EventPublisher>();
 
   beforeEach(() => {
-    useCase = new UpdateStatusDispenserUseCase(repository, eventPublisher);
+    useCase = new UpdateStatusDispenserUseCase(repository);
   });
 
   it('should throw DispenserNotFoundException when dispenser not found', async () => {
@@ -34,9 +33,6 @@ describe('UpdateStatusDispenserUseCase', () => {
     const flowVolume = DispenserFlowVolume.fromString('0.0001');
     const dispenser = Dispenser.create(flowVolume);
 
-    jest
-      .spyOn(eventPublisher, 'mergeObjectContext')
-      .mockImplementation(() => dispenser);
     jest.spyOn(repository, 'findById').mockResolvedValue(dispenser);
     jest.spyOn(repository, 'update').mockResolvedValue(dispenser);
 
@@ -65,9 +61,6 @@ describe('UpdateStatusDispenserUseCase', () => {
     const dispenser = Dispenser.create(flowVolume);
     dispenser.open();
 
-    jest
-      .spyOn(eventPublisher, 'mergeObjectContext')
-      .mockImplementation(() => dispenser);
     jest.spyOn(repository, 'findById').mockResolvedValue(dispenser);
     jest.spyOn(repository, 'update').mockResolvedValue(dispenser);
 

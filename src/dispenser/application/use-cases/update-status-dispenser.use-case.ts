@@ -4,7 +4,6 @@ import { DispenserPrimitives } from '../../domain/models/dispenser';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
 import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';
-import { EventPublisher } from '@nestjs/cqrs';
 
 @Injectable()
 export class UpdateStatusDispenserUseCase {
@@ -13,7 +12,6 @@ export class UpdateStatusDispenserUseCase {
   constructor(
     @Inject('DispenserRepository')
     private readonly dispenserRepository: DispenserRepository,
-    private readonly publisher: EventPublisher,
   ) {}
 
   async execute(
@@ -29,13 +27,15 @@ export class UpdateStatusDispenserUseCase {
       throw new DispenserNotFoundException(id);
     }
 
-    this.publisher.mergeObjectContext(dispenser);
     if (status === DispenserStatus.OPEN) {
       dispenser.open(updatedAt);
     } else {
       dispenser.close(updatedAt);
     }
     const updatedDispenser = await this.dispenserRepository.update(dispenser);
+    this.logger.log(
+      `updated ${status} status dispenser with id ${dispenser.id.value} successfully`,
+    );
 
     return updatedDispenser.toPrimitives();
   }
