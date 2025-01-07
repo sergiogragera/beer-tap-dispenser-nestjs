@@ -1,3 +1,4 @@
+import { DispenserUsageNotClosedException } from '../exceptions/dispenser-usage-not-closed.exception';
 import { Dispenser } from './dispenser';
 import { DispenserFlowVolume } from './value-objects/dispenser-flow-volume.value-object';
 import { DispenserId } from './value-objects/dispenser-id.value-object';
@@ -29,7 +30,7 @@ export class DispenserUsage {
 
   static create(dispenser: Dispenser) {
     if (!dispenser.status.openedAtDate || !dispenser.status.closedAtDate) {
-      throw new Error('dispenser must be closed');
+      throw new DispenserUsageNotClosedException(dispenser.id);
     }
 
     const id = DispenserUsageId.create();

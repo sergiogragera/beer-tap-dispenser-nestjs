@@ -1,6 +1,7 @@
 import { Dispenser } from './dispenser';
 import { DispenserFlowVolume } from './value-objects/dispenser-flow-volume.value-object';
 import { DispenserUsage, DispenserUsagePrimitives } from './dispenser-usage';
+import { DispenserUsageNotClosedException } from '../exceptions/dispenser-usage-not-closed.exception';
 
 describe('DispenserUsage', () => {
   it('create valid usage from primitives', () => {
@@ -17,12 +18,12 @@ describe('DispenserUsage', () => {
     expect(usage.toPrimitives()).toEqual(usagePrimitives);
   });
 
-  it('throw Error when create usage from not closed dispenser', () => {
+  it('throw DispenserUsageNotClosedException when create usage from not closed dispenser', () => {
     const dispenser = Dispenser.create(DispenserFlowVolume.fromString('1'));
     dispenser.open();
 
     expect(() => DispenserUsage.create(dispenser)).toThrow(
-      'dispenser must be closed',
+      DispenserUsageNotClosedException,
     );
   });
 
