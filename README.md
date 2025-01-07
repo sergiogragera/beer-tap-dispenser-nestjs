@@ -26,7 +26,7 @@ You can run application with docker with following command:
 
 `make docker-run` or alternatively with `docker compose run -p "3000:3000" ddd-nestjs-beer-tap-dispenser-api`
 
-You can run this container with `devcontainers`if you are using `vscode` and execute npm commands.
+You can run this container with `devcontainers` if you are using `vscode` and execute `make` or `npm commands`.
 
 ## Using Node 
 
