@@ -30,6 +30,6 @@ describe('CreateDispenserUseCase', () => {
         status: expect.any(DispenserStatus),
       }),
     );
-    expect(response).toEqual(dispenser.toPrimitives());
+    expect(response).toEqual(dispenser);
   });
 });

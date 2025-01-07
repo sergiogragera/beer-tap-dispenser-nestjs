@@ -93,7 +93,7 @@ describe('DispenserStatusController', () => {
       updated_at: now.toISOString(),
     };
 
-    jest.spyOn(useCase, 'execute').mockResolvedValue(dispenser.toPrimitives());
+    jest.spyOn(useCase, 'execute').mockResolvedValue(dispenser);
 
     const response = await controller.updateStatus(id.value, updateStatusDto);
     const expectedResponse = DispenserResponseAdapter.adapt(

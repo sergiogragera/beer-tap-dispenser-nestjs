@@ -53,7 +53,7 @@ describe('UpdateStatusDispenserUseCase', () => {
         }),
       }),
     );
-    expect(response).toEqual(dispenser.toPrimitives());
+    expect(response).toEqual(dispenser);
   });
 
   it('should close dispenser', async () => {
@@ -81,6 +81,6 @@ describe('UpdateStatusDispenserUseCase', () => {
         }),
       }),
     );
-    expect(response).toEqual(dispenser.toPrimitives());
+    expect(response).toEqual(dispenser);
   });
 });

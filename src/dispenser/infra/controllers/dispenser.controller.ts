@@ -54,7 +54,7 @@ export class DispenserController {
       const dispenser = await this.findDispenserUserCase.execute(
         DispenserId.fromString(id),
       );
-      return DispenserResponseAdapter.adapt(dispenser);
+      return DispenserResponseAdapter.adapt(dispenser.toPrimitives());
     } catch (error) {
       if (error instanceof DispenserNotFoundException) {
         throw new HttpException('Dispenser not found', HttpStatus.NOT_FOUND);
@@ -85,6 +85,6 @@ export class DispenserController {
       createDispenserDto.flow_volume,
     );
     const dispenser = await this.createDispenserUseCase.execute(flowVolume);
-    return DispenserResponseAdapter.adapt(dispenser);
+    return DispenserResponseAdapter.adapt(dispenser.toPrimitives());
   }
 }

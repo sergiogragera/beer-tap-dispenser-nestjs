@@ -68,7 +68,7 @@ The status could be:
         updateDispenserDto.status,
         updatedAt,
       );
-      return DispenserResponseAdapter.adapt(dispenser);
+      return DispenserResponseAdapter.adapt(dispenser.toPrimitives());
     } catch (error) {
       if (
         error instanceof DispenserAlreadyOpenedException ||

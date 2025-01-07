@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { DispenserFlowVolume } from '../../domain/models/value-objects/dispenser-flow-volume.value-object';
 import { DispenserRepository } from '../../domain/persistence/dispenser.repository';
-import { Dispenser, DispenserPrimitives } from '../../domain/models/dispenser';
+import { Dispenser } from '../../domain/models/dispenser';
 
 @Injectable()
 export class CreateDispenserUseCase {
@@ -12,7 +12,7 @@ export class CreateDispenserUseCase {
     private readonly dispenserRepository: DispenserRepository,
   ) {}
 
-  async execute(flowVolume: DispenserFlowVolume): Promise<DispenserPrimitives> {
+  async execute(flowVolume: DispenserFlowVolume): Promise<Dispenser> {
     this.logger.log(
       `create dispenser with flow volume ${flowVolume.value} request received`,
     );
@@ -23,6 +23,6 @@ export class CreateDispenserUseCase {
       `created dispenser with id ${dispenser.id.value} successfully`,
     );
 
-    return dispenser.toPrimitives();
+    return dispenser;
   }
 }

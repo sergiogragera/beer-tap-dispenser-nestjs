@@ -57,9 +57,7 @@ describe('DispenserController', () => {
       openedAt: '1/1/2025, 10:59:35 AM',
     });
 
-    jest
-      .spyOn(findDispenserUseCase, 'execute')
-      .mockResolvedValue(dispenser.toPrimitives());
+    jest.spyOn(findDispenserUseCase, 'execute').mockResolvedValue(dispenser);
 
     const response = await controller.findById(id.value);
     const expectedResponse = DispenserResponseAdapter.adapt(
@@ -79,9 +77,7 @@ describe('DispenserController', () => {
 
     const dispenser = Dispenser.create(flowVolume);
 
-    jest
-      .spyOn(createDispenserUseCase, 'execute')
-      .mockResolvedValue(dispenser.toPrimitives());
+    jest.spyOn(createDispenserUseCase, 'execute').mockResolvedValue(dispenser);
 
     const response = await controller.create(createDispenserDto);
     const expectedResponse = DispenserResponseAdapter.adapt(

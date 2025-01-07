@@ -35,6 +35,6 @@ describe('FindDispenserUseCase', () => {
     const response = await useCase.execute(id);
 
     expect(repository.findById).toHaveBeenCalledWith(id);
-    expect(response).toEqual(dispenser.toPrimitives());
+    expect(response).toEqual(dispenser);
   });
 });

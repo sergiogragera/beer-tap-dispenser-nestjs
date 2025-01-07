@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { DispenserRepository } from '../../domain/persistence/dispenser.repository';
-import { DispenserPrimitives } from '../../domain/models/dispenser';
+import { Dispenser } from '../../domain/models/dispenser';
 import { DispenserId } from '../../domain/models/value-objects/dispenser-id.value-object';
 import { DispenserNotFoundException } from '../../domain/exceptions/dispenser-not-found.exception';
 import { DispenserStatus } from '../../domain/enums/dispenser-status.enum';
@@ -18,7 +18,7 @@ export class UpdateStatusDispenserUseCase {
     id: DispenserId,
     status: DispenserStatus,
     updatedAt: Date,
-  ): Promise<DispenserPrimitives> {
+  ): Promise<Dispenser> {
     this.logger.log(
       `update ${status} status request for dispenser with id ${id.value} received`,
     );
@@ -37,6 +37,6 @@ export class UpdateStatusDispenserUseCase {
       `updated ${status} status dispenser with id ${dispenser.id.value} successfully`,
     );
 
-    return updatedDispenser.toPrimitives();
+    return updatedDispenser;
   }
 }
