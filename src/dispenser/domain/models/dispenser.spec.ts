@@ -89,6 +89,7 @@ describe('Dispenser', () => {
 
     dispenser.open(now);
 
+    expect(dispenser.lastUsages).toHaveLength(0);
     expect(dispenser.toPrimitives()).toEqual({
       id: expect.any(String),
       version: 1,
@@ -132,6 +133,7 @@ describe('Dispenser', () => {
     dispenser.open(aMinuteAgo);
     dispenser.close(now);
 
+    expect(dispenser.lastUsages).toHaveLength(1);
     expect(dispenser.toPrimitives()).toEqual({
       id: expect.any(String),
       version: 1,

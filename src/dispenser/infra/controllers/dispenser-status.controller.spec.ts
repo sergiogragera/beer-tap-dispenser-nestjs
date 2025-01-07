@@ -17,6 +17,26 @@ describe('DispenserStatusController', () => {
     controller = new DispenserStatusController(useCase);
   });
 
+  it('should throw Error when unhandled exception', async () => {
+    const id = DispenserId.create();
+
+    const now = new Date();
+    const updateStatusDto: UpdateStatusDispenserDto = {
+      status: DispenserStatus.OPEN,
+      updated_at: now.toISOString(),
+    };
+
+    jest
+      .spyOn(useCase, 'execute')
+      .mockRejectedValue(new Error('omit this message'));
+
+    expect(controller.updateStatus(id.value, updateStatusDto)).rejects.toThrow(
+      'Unexpected error',
+    );
+
+    expect(useCase.execute).toHaveBeenCalledWith(id, DispenserStatus.OPEN, now);
+  });
+
   it('should throw Error when dispenser already open/close', async () => {
     const id = DispenserId.create();
 

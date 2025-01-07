@@ -21,6 +21,18 @@ describe('DispenserController', () => {
     );
   });
 
+  it('should throw Error when unhandled exception', async () => {
+    const id = DispenserId.create();
+
+    jest
+      .spyOn(findDispenserUseCase, 'execute')
+      .mockRejectedValue(new Error('omit this message'));
+
+    expect(controller.findById(id.value)).rejects.toThrow('Unexpected error');
+
+    expect(findDispenserUseCase.execute).toHaveBeenCalledWith(id);
+  });
+
   it('should throw Error when dispenser not found', async () => {
     const id = DispenserId.create();
 
