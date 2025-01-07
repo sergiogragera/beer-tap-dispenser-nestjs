@@ -20,11 +20,19 @@ comes out and, depending on the price, calculate the total amount of money.
 
 You could find the whole description of the API in the [OpenAPI description file](/api.spec.yaml) or running application [swagger spec](http://localhost:3000/api/).
 
-You can run application by following command:
+## Using docker
 
-`make up` or alternatively with `docker compose run -p "3000:3000" ddd-nestjs-beer-tap-dispenser-api`
+You can run application with docker with following command:
+
+`make docker-run` or alternatively with `docker compose run -p "3000:3000" ddd-nestjs-beer-tap-dispenser-api`
 
 You can run this container with `devcontainers`if you are using `vscode` and execute npm commands.
+
+## Using Node 
+
+If you are using node locally you can run `make run` (or artenativelly  `npm run start`).
+
+Run `make help` to show the all command list.
 
 ### Workflow
 
