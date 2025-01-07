@@ -8,7 +8,7 @@ a beer. This will help make the waiting time much faster, making festival attend
 crowded, avoiding delays!
 
 <p align="center">
-    <img alt="Tap dispenser" width="300px" src="./.github/assets/dispenser.png" />
+    <img alt="Tap dispenser" width="150px" src="./.github/assets/dispenser.png" />
 </p>
 
 ## How it works?
